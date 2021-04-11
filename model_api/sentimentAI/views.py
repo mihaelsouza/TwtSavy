@@ -11,7 +11,7 @@ from sentimentAI.serializers import Requests_Serializer
 
 import json
 import numpy as np
-from model_api.wsgi import e2e_model
+from model_api.wsgi import lstm, model_obj
 
 # Create your views here.
 
@@ -24,17 +24,20 @@ class Requests_ViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
     queryset = Requests.objects.all()
 
 class Predict_View(views.APIView):
-    def post(self, request, format=None):
+    def post(self, request, format = None):
         input = request.data['input']
-        predictions = e2e_model.compute_prediction(input)
+        predictions = lstm.compute_prediction(input)
+        # {"input": ["this is awful", "this is wonderful"]}
 
         # Save entries to database
         for entry in predictions:
-            Requests(
-                input_data = entry[0],
-                predicted_sentiment = entry[2],
-                answer_probability = float(entry[1]),
-                ai_model = AI_Model.objects.filter()[0]
-            ).save()
+            exists = Requests.objects.filter(input_data = entry[0], ai_model = model_obj)
+            if not exists:
+                Requests(
+                    input_data = entry[0],
+                    predicted_sentiment = entry[2],
+                    answer_probability = float(entry[1]),
+                    ai_model = model_obj
+                ).save()
 
         return Response(predictions)

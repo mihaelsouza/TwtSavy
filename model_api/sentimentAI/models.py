@@ -11,4 +11,4 @@ class Requests(models.Model):
   input_data = models.CharField(max_length = 400)
   predicted_sentiment = models.CharField(max_length = 10)
   answer_probability = models.DecimalField(max_digits = 4, decimal_places = 3)
-  ai_model = models.ForeignKey(AI_Model, on_delete=models.CASCADE)
+  ai_model = models.ForeignKey(AI_Model, on_delete = models.CASCADE)
