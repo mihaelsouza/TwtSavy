@@ -54,7 +54,7 @@ class E2E_Model:
         result = model.predict([string])
         prediction = [np.max(result), np.argmax(result)]
 
-        return prediction[0], labels[prediction[1]]
+        return string, prediction[0], labels[prediction[1]]
 
     def compute_prediction(self, input_data):
         strings = [self.clean_string(string) for string in input_data]
