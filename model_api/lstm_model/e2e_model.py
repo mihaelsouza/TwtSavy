@@ -20,12 +20,12 @@ class E2E_Model:
 
     def load_model_components(self, path):
         # TextVectorizer layer
-        vocab = pd.read_json(path + '/djangoServer/lstm/vectorizer_vocab.json', typ = 'series')
-        vectorizer = TextVectorization(max_tokens = 20000, output_sequence_length = 50)
+        vocab = pd.read_json(path + '/lstm_model/vectorizer_vocab.json', typ = 'series')
+        vectorizer = TextVectorization(max_tokens = 20001, output_sequence_length = 50)
         vectorizer.set_vocabulary(vocab.values)
 
         # Trained Model
-        model = keras.models.load_model(path + '/djangoServer/lstm/model_weights.h5')
+        model = keras.models.load_model(path + '/lstm_model/model_weights.h5')
 
         return vectorizer, model
 

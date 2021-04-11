@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'sentimentAI'
+    'sentimentAI',
+    'lstm_model'
 ]
 
 MIDDLEWARE = [
