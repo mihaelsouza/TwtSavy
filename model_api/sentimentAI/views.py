@@ -25,18 +25,17 @@ class Requests_ViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
 
 class Predict_View(views.APIView):
     def post(self, request, format = None):
-        input = request.data['input']
+        input = [data['text'] for data in request.data]
         predictions = lstm.compute_prediction(input)
-        # {"input": ["this is awful", "this is wonderful"]}
 
         # Save entries to database
         for entry in predictions:
-            exists = Requests.objects.filter(input_data = entry[0], ai_model = model_obj)
+            exists = Requests.objects.filter(input_data = entry['text'], ai_model = model_obj)
             if not exists:
                 Requests(
-                    input_data = entry[0],
-                    predicted_sentiment = entry[2],
-                    answer_probability = float(entry[1]),
+                    input_data = entry['text'],
+                    predicted_sentiment = entry['sentiment'],
+                    answer_probability = float(entry['probability']),
                     ai_model = model_obj
                 ).save()
 
