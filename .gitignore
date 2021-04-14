@@ -1,8 +1,8 @@
-############# GITHUB Python GitIgnore recommendations
-# Ignore the data folder at root level
+############# Personal gitignore settings
 data/*
 design_ideas/*
 
+############# GITHUB Python GitIgnore recommendations
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
