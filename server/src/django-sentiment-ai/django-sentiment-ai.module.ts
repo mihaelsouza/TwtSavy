@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { HttpModule, Module } from '@nestjs/common';
 import { DjangoSentimentAiController } from './django-sentiment-ai.controller';
-import { DjangoSentimentAiService } from './django-sentiment-ai.service';
+import { DjangoSentimentAiService } from './services/django-sentiment-ai.service';
 
 @Module({
+  imports: [HttpModule],
   controllers: [DjangoSentimentAiController],
-  providers: [DjangoSentimentAiService]
+  providers: [DjangoSentimentAiService],
 })
 export class DjangoSentimentAiModule {}

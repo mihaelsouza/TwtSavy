@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DjangoSentimentAiService } from './django-sentiment-ai.service';
+import { DjangoSentimentAiService } from './services/django-sentiment-ai.service';
 
 describe('DjangoSentimentAiService', () => {
   let service: DjangoSentimentAiService;
