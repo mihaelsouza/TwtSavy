@@ -2,7 +2,7 @@ import { TwitterApiService } from './services/twitter-api.service';
 import { AnalyzeService } from './services/analyze.service';
 import { ModelData } from './utilities/model.data.interface';
 import { Tweet } from './utilities/tweet.interface';
-import { Controller, Post, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 
 @Controller('analyze')
 export class AnalyzeController {
@@ -11,9 +11,9 @@ export class AnalyzeController {
     private twitterService: TwitterApiService
   ) {}
 
-  @Get('hashtag')
-    async getHashtag(): Promise<ModelData[]> {
-      const twitterResponse = await this.twitterService.getHashtagQuery('DynamiteTo1B');
+  @Get('hashtag/:query')
+    async getHashtag(@Param('query') query: string): Promise<ModelData[]> {
+      const twitterResponse = await this.twitterService.getHashtagQuery(query);
       const tweets: Tweet[] = twitterResponse.data.data;
 
       const inputText: ModelData[] = tweets.map((tweet) => {
@@ -27,9 +27,9 @@ export class AnalyzeController {
       return modelResponse.data;
     }
 
-  @Get('timeline')
-    async getTimeline(): Promise<ModelData[]> {
-      let twitterResponse = await this.twitterService.getUserID('codeworks');
+  @Get('timeline/:username')
+    async getTimeline(@Param('username') username: string): Promise<ModelData[]> {
+      let twitterResponse = await this.twitterService.getUserID(username);
       const userID = twitterResponse.data.data.id;
 
       twitterResponse = await this.twitterService.getUserTimeline(userID);
@@ -46,9 +46,9 @@ export class AnalyzeController {
       return modelResponse.data;
     }
 
-  @Get('mentions')
-    async getMentions(): Promise<ModelData[]> {
-      let twitterResponse = await this.twitterService.getUserID('codeworks');
+  @Get('mentions/:username')
+    async getMentions(@Param('username') username: string): Promise<ModelData[]> {
+      let twitterResponse = await this.twitterService.getUserID(username);
       const userID = twitterResponse.data.data.id;
 
       twitterResponse = await this.twitterService.getUserMentions(userID);
