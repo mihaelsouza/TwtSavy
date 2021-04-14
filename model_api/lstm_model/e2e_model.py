@@ -64,11 +64,21 @@ class E2E_Model:
     def compute_prediction(self, input_data):
         default = {
             "text": '<EMPTY STRING>',
+            "date": '',
             "sentiment": 'invalid',
             "probability": -1
         }
 
-        strings = [self.clean_string(string) for string in input_data]
-        predictions = [self.get_sentiment(string, self.e2e_model) if string != '' else default for string in strings]
+        predictions = []
+        for data in input_data:
+            string = self.clean_string(data[0])
+
+            if string == '':
+                default['date'] = data[1]
+                predictions.append(default)
+            else:
+                prediction = self.get_sentiment(string, self.e2e_model)
+                prediction['date'] = data[1]
+                predictions.append(prediction)
 
         return predictions

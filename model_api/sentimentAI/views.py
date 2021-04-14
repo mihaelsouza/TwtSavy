@@ -25,7 +25,7 @@ class Requests_ViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
 
 class Predict_View(views.APIView):
     def post(self, request, format = None):
-        input = [data['text'] for data in request.data]
+        input = [[data['text'], data['date']] for data in request.data]
         predictions = lstm.compute_prediction(input)
 
         # Save entries to database
