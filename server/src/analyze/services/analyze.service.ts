@@ -6,9 +6,9 @@ import { AxiosResponse } from 'axios';
 export class AnalyzeService {
   private djangoServer: string = `${process.env.DJANGO_HOST}:${process.env.DJANGO_PORT}/api/v1`;
 
-  constructor ( private httpService: HttpService ) {}
+  constructor ( private http: HttpService ) {}
 
   getSentiment(inputText: ModelData[]): Promise<AxiosResponse<ModelData[]>> {
-    return this.httpService.post(`${this.djangoServer}/predict`, inputText).toPromise();
+    return this.http.post(`${this.djangoServer}/predict`, inputText).toPromise();
   }
 }
