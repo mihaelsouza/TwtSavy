@@ -46,7 +46,7 @@ class E2E_Model:
         string = re.sub(r'\s\s+', ' ', string) # Substitutes multiple whitespaces by single instances
         string = string.lower().strip() # Sets all to lower case and remove leading/trailing spaces
 
-        return string if string != '' else np.nan # Avoid saving empty strings
+        return string
 
     def get_sentiment(self, string, model):
         labels = {0: 'negative', 1: 'positive'}
@@ -62,7 +62,13 @@ class E2E_Model:
         return response
 
     def compute_prediction(self, input_data):
+        default = {
+            "text": '<EMPTY STRING>',
+            "sentiment": 'invalid',
+            "probability": -1
+        }
+
         strings = [self.clean_string(string) for string in input_data]
-        predictions = [self.get_sentiment(string, self.e2e_model) for string in strings]
+        predictions = [self.get_sentiment(string, self.e2e_model) if string != '' else default for string in strings]
 
         return predictions
