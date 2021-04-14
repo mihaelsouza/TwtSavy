@@ -1,5 +1,4 @@
 import { Injectable, HttpService } from '@nestjs/common';
-import { Tweet } from '../utilities/tweet.interface';
 import { AxiosResponse } from 'axios';
 
 @Injectable()
@@ -26,5 +25,9 @@ export class TwitterApiService {
 
   getUserTimeline(id: number): Promise<AxiosResponse> {
     return this.http.get(`${this.usersEndpoint}/${id}/tweets?max_results=100&${this.tweetFields}`, this.config).toPromise();
+  }
+
+  getUserMentions(id: number): Promise<AxiosResponse> {
+    return this.http.get(`${this.usersEndpoint}/${id}/mentions?max_results=100&${this.tweetFields}`, this.config).toPromise();
   }
 }

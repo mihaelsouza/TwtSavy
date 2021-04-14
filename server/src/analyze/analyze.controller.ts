@@ -45,4 +45,23 @@ export class AnalyzeController {
       const modelResponse = await this.aiService.getSentiment(inputText);
       return modelResponse.data;
     }
+
+  @Get('mentions')
+    async getMentions(): Promise<ModelData[]> {
+      let twitterResponse = await this.twitterService.getUserID('codeworks');
+      const userID = twitterResponse.data.data.id;
+
+      twitterResponse = await this.twitterService.getUserMentions(userID);
+      const tweets: Tweet[] = twitterResponse.data.data;
+
+      const inputText: ModelData[] = tweets.map((tweet) => {
+        return {
+          text: tweet.text,
+          date: tweet.created_at
+        };
+      });
+
+      const modelResponse = await this.aiService.getSentiment(inputText);
+      return modelResponse.data;
+    }
 }
