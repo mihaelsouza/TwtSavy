@@ -1,14 +1,14 @@
-import { DjangoSentimentAiService } from './services/django-sentiment-ai.service';
+import { AnalyzeService } from './services/analyze.service';
 import { ModelData } from './utilities/model.data.interface';
 import { Tweet } from './utilities/tweet.interface';
 import { Controller, Post, Get } from '@nestjs/common';
 
 @Controller('analyze')
-export class DjangoSentimentAiController {
-  constructor ( private aiService: DjangoSentimentAiService ) {}
+export class AnalyzeController {
+  constructor ( private aiService: AnalyzeService ) {}
 
   @Get('hashtag')
-    getSentiment(): void {
+    async getSentiment(): Promise<ModelData[]> {
       const tweets: Tweet[] = [
         {
           lang: "en",
@@ -30,9 +30,14 @@ export class DjangoSentimentAiController {
         }
       ]
 
-      const inputText: ModelData[] = tweets.map((tweet) => { return {text: tweet.text}; });
-      this.aiService.getSentiment(inputText).subscribe((next) => {
-        console.log(next);
+      const inputText: ModelData[] = tweets.map((tweet) => {
+        return {
+          text: tweet.text,
+          date: tweet.created_at
+        };
       });
+
+      const modelResponse = await this.aiService.getSentiment(inputText);
+      return modelResponse.data;
     }
 }

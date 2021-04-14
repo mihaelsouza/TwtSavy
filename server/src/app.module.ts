@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DjangoSentimentAiModule } from './django-sentiment-ai/django-sentiment-ai.module';
+import { AnalyzeModule } from './analyze/analyze.module';
 
 @Module({
-  imports: [DjangoSentimentAiModule],
+  imports: [AnalyzeModule],
   controllers: [AppController],
   providers: [AppService],
 })
