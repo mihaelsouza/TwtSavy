@@ -1,5 +1,6 @@
 import { TwitterApiService } from './services/twitter-api.service';
 import { AnalyzeService } from './services/analyze.service';
+import { tweetToModelData } from './utilities/utils';
 import { ModelData } from './utilities/model.data.interface';
 import { Tweet } from './utilities/tweet.interface';
 import { Controller, Get, Param } from '@nestjs/common';
@@ -16,14 +17,7 @@ export class AnalyzeController {
       const twitterResponse = await this.twitterService.getHashtagQuery(query);
       const tweets: Tweet[] = twitterResponse.data.data;
 
-      const inputText: ModelData[] = tweets.map((tweet) => {
-        return {
-          text: tweet.text,
-          date: tweet.created_at
-        };
-      });
-
-      const modelResponse = await this.aiService.getSentiment(inputText);
+      const modelResponse = await this.aiService.getSentiment(tweetToModelData(tweets));
       return modelResponse.data;
     }
 
@@ -35,14 +29,7 @@ export class AnalyzeController {
       twitterResponse = await this.twitterService.getUserTimeline(userID);
       const tweets: Tweet[] = twitterResponse.data.data;
 
-      const inputText: ModelData[] = tweets.map((tweet) => {
-        return {
-          text: tweet.text,
-          date: tweet.created_at
-        };
-      });
-
-      const modelResponse = await this.aiService.getSentiment(inputText);
+      const modelResponse = await this.aiService.getSentiment(tweetToModelData(tweets));
       return modelResponse.data;
     }
 
@@ -54,14 +41,7 @@ export class AnalyzeController {
       twitterResponse = await this.twitterService.getUserMentions(userID);
       const tweets: Tweet[] = twitterResponse.data.data;
 
-      const inputText: ModelData[] = tweets.map((tweet) => {
-        return {
-          text: tweet.text,
-          date: tweet.created_at
-        };
-      });
-
-      const modelResponse = await this.aiService.getSentiment(inputText);
+      const modelResponse = await this.aiService.getSentiment(tweetToModelData(tweets));
       return modelResponse.data;
     }
 }
