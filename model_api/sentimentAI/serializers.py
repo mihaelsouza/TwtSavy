@@ -11,4 +11,5 @@ class AI_Model_Serializer(serializers.ModelSerializer):
 class Requests_Serializer(serializers.ModelSerializer):
   class Meta:
     model = Requests
-    read_only_fields = ('id', 'predicted_sentiment', 'answer_probability', 'ai_model')
+    read_only_fields = ('id', 'input_data', 'predicted_sentiment', 'answer_probability', 'ai_model')
+    fields = read_only_fields
