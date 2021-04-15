@@ -1,12 +1,14 @@
+import { tweetToModelData, filterNonEnglish } from './utilities/utils';
 import { TwitterApiService } from './services/twitter-api.service';
 import { AnalyzeService } from './services/analyze.service';
-import { tweetToModelData } from './utilities/utils';
 import { ModelData } from './utilities/model.data.interface';
 import { Tweet } from './utilities/tweet.interface';
 import { Controller, Get, Param } from '@nestjs/common';
 
 @Controller('analyze')
 export class AnalyzeController {
+  private tweets: Tweet[] = [];
+
   constructor (
     private aiService: AnalyzeService,
     private twitterService: TwitterApiService
@@ -14,10 +16,23 @@ export class AnalyzeController {
 
   @Get('hashtag/:query')
     async getHashtag(@Param('query') query: string): Promise<ModelData[]> {
-      const twitterResponse = await this.twitterService.getHashtagQuery(query);
-      const tweets: Tweet[] = twitterResponse.data.data;
+      let twitterResponse = await this.twitterService.getHashtagQuery(query, '');
+      this.tweets = twitterResponse.data.data;
 
-      const modelResponse = await this.aiService.getSentiment(tweetToModelData(tweets));
+      let page: string = twitterResponse.data.meta.next_token || '';
+      if (page !== '') {
+        let count = 0;
+        while (page && count < 400) {
+          twitterResponse = await this.twitterService.getHashtagQuery(query, page);
+          this.tweets = this.tweets.concat(twitterResponse.data.data);
+
+          count += twitterResponse.data.meta.result_count
+          page = twitterResponse.data.meta.next_token;
+          console.log(count, page, this.tweets.length)
+        }
+      }
+
+      const modelResponse = await this.aiService.getSentiment(tweetToModelData(this.tweets));
       return modelResponse.data;
     }
 
@@ -26,10 +41,23 @@ export class AnalyzeController {
       let twitterResponse = await this.twitterService.getUserID(username);
       const userID = twitterResponse.data.data.id;
 
-      twitterResponse = await this.twitterService.getUserTimeline(userID);
-      const tweets: Tweet[] = twitterResponse.data.data;
+      twitterResponse = await this.twitterService.getUserTimeline(userID, '');
+      this.tweets = filterNonEnglish(twitterResponse.data.data);
 
-      const modelResponse = await this.aiService.getSentiment(tweetToModelData(tweets));
+      let page: string = twitterResponse.data.meta.next_token || '';
+      if (page !== '') {
+        let count = 0;
+        while (page && count < 400) {
+          twitterResponse = await this.twitterService.getUserTimeline(userID, page);
+          this.tweets = this.tweets.concat(filterNonEnglish(twitterResponse.data.data));
+
+          count += twitterResponse.data.meta.result_count
+          page = twitterResponse.data.meta.next_token;
+          console.log(count, page, this.tweets.length)
+        }
+      }
+
+      const modelResponse = await this.aiService.getSentiment(tweetToModelData(this.tweets));
       return modelResponse.data;
     }
 
@@ -38,10 +66,23 @@ export class AnalyzeController {
       let twitterResponse = await this.twitterService.getUserID(username);
       const userID = twitterResponse.data.data.id;
 
-      twitterResponse = await this.twitterService.getUserMentions(userID);
-      const tweets: Tweet[] = twitterResponse.data.data;
+      twitterResponse = await this.twitterService.getUserMentions(userID, '');
+      this.tweets = filterNonEnglish(twitterResponse.data.data);
 
-      const modelResponse = await this.aiService.getSentiment(tweetToModelData(tweets));
+      let page: string = twitterResponse.data.meta.next_token || '';
+      if (page !== '') {
+        let count = 0;
+        while (page && count < 400) {
+          twitterResponse = await this.twitterService.getUserMentions(userID, page);
+          this.tweets = this.tweets.concat(filterNonEnglish(twitterResponse.data.data));
+
+          count += twitterResponse.data.meta.result_count
+          page = twitterResponse.data.meta.next_token;
+          console.log(count, page, this.tweets.length)
+        }
+      }
+
+      const modelResponse = await this.aiService.getSentiment(tweetToModelData(this.tweets));
       return modelResponse.data;
     }
 }
