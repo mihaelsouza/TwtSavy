@@ -8,7 +8,7 @@ export class AnalyzeService {
 
   constructor ( private http: HttpService ) {}
 
-  getSentiment(inputText: ModelData[]): Promise<AxiosResponse<ModelData[]>> {
-    return this.http.post(`${this.djangoServer}/predict`, inputText).toPromise();
+  getSentiment(inputArray: ModelData[]): Promise<AxiosResponse> {
+    return this.http.post(`${this.djangoServer}/predict`, inputArray).toPromise();
   }
 }

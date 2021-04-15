@@ -1,7 +1,7 @@
-import { HttpModule, Module } from '@nestjs/common';
-import { AnalyzeController } from './analyze.controller';
-import { AnalyzeService } from './services/analyze.service';
 import { TwitterApiService } from './services/twitter-api.service';
+import { AnalyzeService } from './services/analyze.service';
+import { AnalyzeController } from './analyze.controller';
+import { HttpModule, Module } from '@nestjs/common';
 
 @Module({
   imports: [HttpModule],

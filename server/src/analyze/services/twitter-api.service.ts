@@ -1,12 +1,12 @@
+import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import { Injectable, HttpService } from '@nestjs/common';
-import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class TwitterApiService {
   private tweetsEndpoint: string = 'https://api.twitter.com/2/tweets/search/recent?max_results=100';
   private usersEndpoint: string = 'https://api.twitter.com/2/users';
   private tweetFields: string = 'tweet.fields=created_at,lang,text';
-  private config = {
+  private config: AxiosRequestConfig = {
     headers: {
       Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`
     }
