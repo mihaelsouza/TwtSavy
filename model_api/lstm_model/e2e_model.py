@@ -55,7 +55,7 @@ class E2E_Model:
         prediction = [np.max(result), np.argmax(result)]
         response = {
             "text": string,
-            "sentiment": labels[prediction[1]],
+            "sentiment": labels[prediction[1]] if prediction[0] > 0.7 else 'neutral',
             "probability": prediction[0]
         }
 
