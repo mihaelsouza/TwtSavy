@@ -1,15 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
 
 interface Props {
   buttonLabel: string,
-  onPress: Function
+  onPress: Function,
+  style?: ViewStyle
 };
 
-const Button = (props: Props) => {
+const Button: React.FC<Props> = ({ buttonLabel, onPress, style }) => {
   return (
-    <TouchableOpacity onPress={() => props.onPress()} style={styles.container}>
-      <Text style={styles.text}>{props.buttonLabel}</Text>
+    <TouchableOpacity onPress={() => onPress()} style={[styles.container, style]}>
+      <Text style={styles.text}>{buttonLabel}</Text>
     </TouchableOpacity>
   )
 };
@@ -23,8 +24,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: '#06399D',
-    borderColor: 'white',
+    backgroundColor: 'steelblue',
+    borderColor: 'black',
     borderWidth: 1,
     borderRadius: 20,
     shadowColor: "#000",
