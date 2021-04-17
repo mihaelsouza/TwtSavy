@@ -52,10 +52,10 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   hamburger: {
-    color: 'black',
+    color: 'transparent',
     textAlign: 'center',
-    backgroundColor: '#DADADA',
-    borderColor: '#DADADA',
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
     alignSelf: 'center',
     padding: 0,
     marginLeft: 10
