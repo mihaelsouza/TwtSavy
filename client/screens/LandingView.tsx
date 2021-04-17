@@ -1,15 +1,20 @@
 import React from 'react';
 import Button from '../components/Button';
+import { LandingViewNavigationProp } from '../types';
 import { StyleSheet, Text, View, SafeAreaView, Image, ImageBackground } from 'react-native';
 
-const LandingView = () => {
+interface Props {
+  navigation: LandingViewNavigationProp
+};
+
+const LandingView: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground source={require('../assets/circles-and-roundabouts.png')} style={styles.backgroundImage}>
         <View style={styles.container}>
           <Text style={{...styles.text, fontSize: 25}}>Welcome to</Text>
-          <View style={styles.logo}>
-            <Image source={require('../assets/logo.png')} style={{width: 60, height: 60, resizeMode: 'contain'}}/>
+          <View style={styles.logoContainer}>
+            <Image source={require('../assets/logo.png')} style={styles.logo}/>
             <Text style={styles.headerTxt}>TwtSavy</Text>
           </View>
           <View style={[styles.textBox]}>
@@ -17,7 +22,7 @@ const LandingView = () => {
             <Text style={{...styles.text, paddingBottom: 20}}>Curious about the sentiment towards your favorite @company?</Text>
             <Text style={styles.text}>And you, what does your tweets reveal of your last week?</Text>
           </View>
-          <Button buttonLabel="Let's Find Out!" onPress={() => {console.log('pressed')}}/>
+          <Button buttonLabel="Let's Find Out!" onPress={() => navigation.navigate('DashboardView')}/>
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -38,11 +43,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  logo: {
+  logoContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 30
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain'
   },
   textBox: {
     width: '90%',
