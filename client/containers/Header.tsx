@@ -30,8 +30,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#DADADA',
     height: 50,
-    alignItems: 'center',
-    padding: 10
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    opacity: .8
   },
   logoContainer: {
     flexDirection: 'row',
