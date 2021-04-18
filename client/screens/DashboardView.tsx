@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import Button from '../components/Button';
 import Header from '../containers/Header';
+import { DashboardViewNavigationProp } from '../types';
 import RNPickerSelect from 'react-native-picker-select';
 import { StyleSheet, Text, View, SafeAreaView, ImageBackground, TextInput } from 'react-native';
-import { Picker } from '@react-native-picker/picker/typings/Picker';
 
 interface Props {
-
+  navigation: DashboardViewNavigationProp
 };
 
-const DashboardView: React.FC<Props> = () => {
+const DashboardView: React.FC<Props> = ({ navigation }) => {
   const [endpoint, setEndpoint] = useState<string>('hashtag');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -23,6 +23,7 @@ const DashboardView: React.FC<Props> = () => {
           <Text style={styles.text}>Choose a category and search term below to get started...</Text>
           <View style={styles.pickerContainer}>
             <RNPickerSelect
+              value={endpoint}
               onValueChange={value => setEndpoint(value)}
               items={[
                 {label: '#', value: 'hashtag'},

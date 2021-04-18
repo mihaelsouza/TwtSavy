@@ -11,7 +11,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
   const [form, setForm] = useState<{
     email: string,
     password: string
-  }>({email: '', password: ''})
+  }>({email: '', password: ''});
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,7 +25,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
         style={styles.textInput} placeholder='Enter your password...' placeholderTextColor='#DADADA'
       ></TextInput>
       <Button buttonLabel='LogMeIn' onPress={() => navigation.navigate('DashboardView')} style={styles.additionalButton}></Button>
-      <Button buttonLabel='Register' onPress={() => console.log('register')} style={styles.additionalButton}></Button>
+      <Button buttonLabel='Register' onPress={() => navigation.navigate('UserRegistration')} style={styles.additionalButton}></Button>
     </SafeAreaView>
   )
 };

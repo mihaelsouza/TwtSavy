@@ -21,7 +21,7 @@ const LandingView: React.FC<Props> = ({ navigation }) => {
           <Text style={{...styles.text, paddingBottom: 20}}>Curious about the sentiment towards your favorite @company?</Text>
           <Text style={styles.text}>And you, what does your tweets reveal of your last week?</Text>
         </View>
-        <Button buttonLabel="Let's Find Out!" onPress={() => navigation.navigate('DashboardView')}/>
+        <Button buttonLabel="Let's Find Out!" onPress={() => navigation.navigate('UserLogin')}/>
       </ImageBackground>
     </SafeAreaView>
   )
