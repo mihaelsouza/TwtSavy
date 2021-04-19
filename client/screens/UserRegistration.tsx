@@ -57,8 +57,11 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
           return (
             <View>
               <Text style={styles.text}>{item.text}</Text>
-              <TextInput onChangeText={(value) => valueHandler(value, item.prop)}
-                style={styles.textInput} placeholder={item.placeholder} placeholderTextColor='#DADADA'/>
+              <TextInput
+                onChangeText={(value) => valueHandler(value, item.prop)}
+                keyboardType={item.prop === 'email' ? 'email-address' : 'default'}
+                style={styles.textInput} placeholder={item.placeholder} placeholderTextColor='#DADADA'
+              />
             </View>
           );
         }}

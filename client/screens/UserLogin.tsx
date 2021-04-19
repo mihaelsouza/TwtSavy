@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, SafeAreaView } from 'react-native';
+
 import Button from '../components/Button';
 import { UserLoginNavigationProp } from '../types';
-import { StyleSheet, Text, TextInput, SafeAreaView } from 'react-native';
 
 interface Props {
   navigation: UserLoginNavigationProp

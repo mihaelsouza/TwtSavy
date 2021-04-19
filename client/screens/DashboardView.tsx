@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import RNPickerSelect from 'react-native-picker-select';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
+
 import Button from '../components/Button';
 import Header from '../containers/Header';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
 import { DashboardViewNavigationProp } from '../types';
-import RNPickerSelect from 'react-native-picker-select';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+
 
 interface Props {
   navigation: DashboardViewNavigationProp
