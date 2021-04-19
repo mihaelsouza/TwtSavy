@@ -17,7 +17,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.headerText}>Login</Text>
       <Text style={styles.text}>EMAIL</Text>
-      <TextInput onChangeText={(value) => setForm({...form, email: value})}
+      <TextInput onChangeText={(value) => setForm({...form, email: value})} keyboardType='email-address'
         style={styles.textInput} placeholder='Enter your email...' placeholderTextColor='#DADADA'
       ></TextInput>
       <Text style={styles.text}>PASSWORD</Text>
