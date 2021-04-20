@@ -28,3 +28,13 @@ export type DashboardViewNavigationProp = StackNavigationProp<
   StackParamList,
   'DashboardView'
 >;
+
+export type Form = {
+  [key: string]: string | undefined;
+  fullName: string;
+  email: string;
+  username: string;
+  twitterHandle?: string;
+  password: string;
+  repeatPassword: string;
+}
