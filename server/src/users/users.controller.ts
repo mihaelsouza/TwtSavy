@@ -8,12 +8,13 @@ export class UsersController {
   constructor ( private usersService: UsersService ) {}
 
   @Post()
-    async getUser(@Body() {email, password}: {email: string, password: string}): Promise<string | boolean> {
+    async getUser(@Body() {email, password}: {email: string, password: string}): Promise<UserDTO | string> {
       const user: UserDTO | null = await this.usersService.findUser(email);
 
       if (user) {
         const match = await compare(password, user.password);
-        return match ? true : false;
+        delete user.password;
+        return match ? user : 'Error: invalid e-mail and/or password.';
       } else return 'Error: e-mail not registered!';
     }
 

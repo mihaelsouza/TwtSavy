@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, SafeAreaView } from 'react-native';
 
 import Button from '../components/Button';
-import { UserLoginNavigationProp } from '../types';
+import { UserDTO } from '../utilities/user-dto';
+import { UserLoginNavigationProp } from '../utilities/types';
+import { checkUser } from '../services/clientApi';
+import * as validation from '../utilities/validation';
 
 interface Props {
   navigation: UserLoginNavigationProp
@@ -11,21 +14,47 @@ interface Props {
 const UserLogin: React.FC<Props> = ({ navigation }) => {
   const [form, setForm] = useState<{
     email: string,
-    password: string
-  }>({email: '', password: ''});
+    password: string,
+    error: string
+  }>({email: '', password: '', error: ''});
+
+  const logMeIn: Function = async (): Promise<void> => {
+    const validEmail = validation.validateEmail(form.email);
+    const validPassword = validation.validatePassword(form.password);
+
+    if (validEmail === true && validPassword === true) {
+      const checkDB: UserDTO | string = await checkUser(form.email, form.password)
+      if (typeof checkDB === 'object') navigation.navigate('DashboardView', {user: checkDB});
+      else {
+        if (typeof checkDB === 'string') setForm({...form, error: checkDB});
+        else setForm({...form, error: checkDB})
+      }
+    } else {
+      setForm({...form, error: 'Error: invalid e-mail and/or password.'})
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.headerText}>Login</Text>
       <Text style={styles.text}>EMAIL</Text>
-      <TextInput onChangeText={(value) => setForm({...form, email: value})} keyboardType='email-address'
-        style={styles.textInput} placeholder='Enter your email...' placeholderTextColor='#DADADA'
+      <TextInput
+        onChangeText={(value) => setForm({...form, email: value.toLowerCase()})}
+        keyboardType='email-address'
+        style={styles.textInput}
+        placeholder='Enter your email...'
+        placeholderTextColor='#DADADA'
       ></TextInput>
       <Text style={styles.text}>PASSWORD</Text>
-      <TextInput onChangeText={(value) => setForm({...form, password: value})}
-        style={styles.textInput} placeholder='Enter your password...' placeholderTextColor='#DADADA'
+      <TextInput
+        onChangeText={(value) => setForm({...form, password: value})}
+        secureTextEntry={true}
+        style={styles.textInput}
+        placeholder='Enter your password...'
+        placeholderTextColor='#DADADA'
       ></TextInput>
-      <Button buttonLabel='LogMeIn' onPress={() => navigation.navigate('DashboardView')} style={styles.additionalButton}></Button>
+      <Text style={styles.errorText}>{form.error}</Text>
+      <Button buttonLabel='LogMeIn' onPress={() => logMeIn()} style={styles.additionalButton}></Button>
       <Button buttonLabel='Register' onPress={() => navigation.navigate('UserRegistration')} style={styles.additionalButton}></Button>
     </SafeAreaView>
   )
@@ -50,6 +79,13 @@ const styles = StyleSheet.create({
     color: 'white',
     marginBottom: 5,
     fontFamily: 'FrederickatheGreat-Regular',
+  },
+  errorText: {
+    fontSize: 15,
+    color: 'red',
+    marginBottom: 5,
+    fontFamily: 'Raleway-Regular',
+    alignSelf: 'center'
   },
   textInput: {
     fontFamily: 'Raleway-Regular',
