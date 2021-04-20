@@ -23,7 +23,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
     const validPassword = validation.validatePassword(form.password);
 
     if (validEmail === true && validPassword === true) {
-      const checkDB: UserDTO | string = await checkUser(form.email, form.password)
+      const checkDB: UserDTO | string = await checkUser(form.email, form.password);
       if (typeof checkDB === 'object') navigation.navigate('DashboardView', {user: checkDB});
       else {
         if (typeof checkDB === 'string') setForm({...form, error: checkDB});
