@@ -6,7 +6,7 @@ import Button from '../components/Button';
 import Header from '../containers/Header';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
-import { DashboardViewNavigationProp } from '../types';
+import { DashboardViewNavigationProp } from '../utilities/types';
 
 
 interface Props {

@@ -6,7 +6,7 @@ interface Props {
 
 };
 
-const Header = (props: Props) => {
+const Header: React.FC<Props> = () => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>

@@ -1,6 +1,7 @@
 ############# Personal gitignore settings
 data/*
 design_ideas/*
+connect_react_native_localhost.txt
 
 ############# GITHUB Python GitIgnore recommendations
 # Byte-compiled / optimized / DLL files

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import Button from '../components/Button';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
-import { LandingViewNavigationProp } from '../types';
+import { LandingViewNavigationProp } from '../utilities/types';
 
 interface Props {
   navigation: LandingViewNavigationProp

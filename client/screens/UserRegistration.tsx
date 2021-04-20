@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../components/Button';
-import { UserRegistrationNavigationProp } from '../types';
+import { UserRegistrationNavigationProp } from '../utilities/types';
 import { StyleSheet, Text, TextInput, SafeAreaView, FlatList, View, TextInputProps } from 'react-native';
 
 interface Props {
