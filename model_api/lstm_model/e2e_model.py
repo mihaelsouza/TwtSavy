@@ -56,7 +56,8 @@ class E2E_Model:
         response = {
             "text": string,
             "sentiment": labels[prediction[1]] if prediction[0] > 0.7 else 'neutral',
-            "probability": prediction[0]
+            "probability": prediction[0],
+            "score": 1 - prediction[0] if labels[prediction[1]] == 'negative' else prediction[0]
         }
 
         return response
@@ -66,7 +67,8 @@ class E2E_Model:
             "text": '<EMPTY STRING>',
             "date": '',
             "sentiment": 'invalid',
-            "probability": -1
+            "probability": -1,
+            "score": -1,
         }
 
         predictions = []
