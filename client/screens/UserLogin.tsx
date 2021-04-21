@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, TextInput, SafeAreaView, Alert } from 'react-native';
 
 import Button from '../components/Button';
 import { UserDTO } from '../utilities/user-dto';
@@ -15,8 +15,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
   const [form, setForm] = useState<{
     email: string,
     password: string,
-    error: string
-  }>({email: '', password: '', error: ''});
+  }>({email: '', password: ''});
 
   const logMeIn: Function = async (): Promise<void> => {
     const validEmail = validation.validateEmail(form.email);
@@ -26,11 +25,11 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
       const checkDB: UserDTO | string = await checkUser(form.email, form.password);
       if (typeof checkDB === 'object') navigation.navigate('DashboardView', {user: checkDB});
       else {
-        if (typeof checkDB === 'string') setForm({...form, error: checkDB});
-        else setForm({...form, error: checkDB})
+        if (typeof checkDB === 'string') Alert.alert('Invalid credentials', checkDB);
+        else Alert.alert('Invalid credentials', checkDB);
       }
     } else {
-      setForm({...form, error: 'Error: invalid e-mail and/or password.'})
+      Alert.alert('Invalid credentials', 'Error: invalid e-mail and/or password.');
     }
   };
 
@@ -39,6 +38,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
       <Text style={styles.headerText}>Login</Text>
       <Text style={styles.text}>EMAIL</Text>
       <TextInput
+        value={form.email.toLowerCase()}
         onChangeText={(value) => setForm({...form, email: value.toLowerCase()})}
         keyboardType='email-address'
         style={styles.textInput}
@@ -53,7 +53,6 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
         placeholder='Enter your password...'
         placeholderTextColor='#DADADA'
       ></TextInput>
-      <Text style={styles.errorText}>{form.error}</Text>
       <Button buttonLabel='LogMeIn' onPress={() => logMeIn()} style={styles.additionalButton}></Button>
       <Button buttonLabel='Register' onPress={() => navigation.navigate('UserRegistration')} style={styles.additionalButton}></Button>
     </SafeAreaView>
