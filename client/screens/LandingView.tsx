@@ -12,7 +12,7 @@ interface Props {
 
 const LandingView: React.FC<Props> = ({ navigation }) => {
   return (
-    <Background>
+    <Background style={{'justifyContent': 'center'}}>
       <Text style={{...styles.text, fontSize: 25}}>Welcome to</Text>
       <View style={styles.logoContainer}>
         <Image source={require('../assets/logo.png')} style={styles.logo}/>
