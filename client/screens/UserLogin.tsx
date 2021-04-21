@@ -24,10 +24,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
     if (validEmail === true && validPassword === true) {
       const checkDB: UserDTO | string = await checkUser(form.email, form.password);
       if (typeof checkDB === 'object') navigation.navigate('DashboardView', {user: checkDB});
-      else {
-        if (typeof checkDB === 'string') Alert.alert('Invalid credentials', checkDB);
-        else Alert.alert('Invalid credentials', checkDB);
-      }
+      else Alert.alert('Invalid credentials', checkDB);
     } else {
       Alert.alert('Invalid credentials', 'Error: invalid e-mail and/or password.');
     }

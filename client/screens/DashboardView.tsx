@@ -6,22 +6,25 @@ import Button from '../components/Button';
 import Header from '../containers/Header';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
-import { DashboardViewNavigationProp } from '../utilities/types';
+import { UserDTO } from '../utilities/user-dto';
+import { DashboardViewNavigationProp, DashboardViewRouteProp } from '../utilities/types';
 
 
 interface Props {
-  navigation: DashboardViewNavigationProp
+  navigation: DashboardViewNavigationProp,
+  route: DashboardViewRouteProp
 };
 
-const DashboardView: React.FC<Props> = ({ navigation }) => {
+const DashboardView: React.FC<Props> = ({ navigation, route }) => {
   const [endpoint, setEndpoint] = useState<string>('hashtag');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const user: UserDTO = route.params.user;
 
   return (
     <Background>
-      <Header />
+      <Header username={user.username}/>
       <ContentBox>
-        <Text style={styles.textHeader}>Hi {'USERNAME,'.toUpperCase()}</Text>
+        <Text style={styles.textHeader}>Hi {`${user.username},`.toUpperCase()}</Text>
         <Text style={styles.text}>Let's draw some insights!</Text>
         <Text style={styles.text}>Choose a category and search term below to get started...</Text>
         <View style={styles.pickerContainer}>

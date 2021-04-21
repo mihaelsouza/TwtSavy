@@ -3,10 +3,10 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 interface Props {
-
+  username: string
 };
 
-const Header: React.FC<Props> = () => {
+const Header: React.FC<Props> = ({ username }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -14,7 +14,7 @@ const Header: React.FC<Props> = () => {
         <Text style={styles.headerTxt}>TwtSavy</Text>
       </View>
       <View style={{...styles.logoContainer, justifyContent: 'flex-end'}}>
-        <Text>{'Username'.toUpperCase()}</Text>
+        <Text>{username.toUpperCase()}</Text>
         <FontAwesome5.Button name={'hamburger'} style={styles.hamburger} onPress={() => {console.log('hamburger')}}
           size={25} backgroundColor='transparent' color='black'
         />
