@@ -41,6 +41,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
         value={form.email.toLowerCase()}
         onChangeText={(value) => setForm({...form, email: value.toLowerCase()})}
         keyboardType='email-address'
+        autoCapitalize='none'
         style={styles.textInput}
         placeholder='Enter your email...'
         placeholderTextColor='#DADADA'

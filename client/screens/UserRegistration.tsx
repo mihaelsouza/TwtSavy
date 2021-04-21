@@ -38,7 +38,7 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
 
   const valueHandler: Function = (value: string, prop: string): void => {
     const newForm: Form = {...form};
-    newForm[prop] = value;
+    newForm[prop] = prop === 'email' ? value.toLowerCase() : value;
     setForm(newForm);
   };
 
@@ -76,6 +76,7 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
               <TextInput
                 value={form[item.prop]}
                 onChangeText={(value) => valueHandler(value, item.prop)}
+                autoCapitalize={item.prop === 'email' ? 'none' : 'words'}
                 keyboardType={item.prop === 'email' ? 'email-address' : 'default'}
                 secureTextEntry={item.prop === 'password' || item.prop === 'repeatPassword' ? true: false}
                 style={styles.textInput} placeholder={item.placeholder} placeholderTextColor='#DADADA'
