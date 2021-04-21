@@ -17,7 +17,8 @@ export class AnalyzeController {
 
   private getTweets: Function = async (search: string | number, func: Function): Promise<Tweet[]> => {
     let twitterResponse: AxiosResponse = await func.call(this.twitterService, search, '');
-    let tweets: Tweet[] = filterNonEnglish(twitterResponse.data.data);
+    let tweets: Tweet[] = filterNonEnglish(twitterResponse.data.data || []);
+    if (tweets.length < 10) throw new Error('Insufficient number of tweets to analyze.');
 
     let count: number = 0;
     let page: string = twitterResponse.data.meta.next_token || '';
@@ -34,8 +35,9 @@ export class AnalyzeController {
 
   private getSentiment: Function = async (tweets: Tweet[]): Promise<ModelData[]> => {
     const modelResponse: AxiosResponse = await this.aiService.getSentiment(tweetToModelData(tweets));
-    const modelData: ModelData[] = modelResponse.data;
-    return filterEmptyModelReturns(modelData);
+    const modelData: ModelData[] = filterEmptyModelReturns(modelResponse.data);
+    if (modelData.length < 10) throw new Error('Insufficient number of valid tweets after processing.');
+    else return modelData;
   };
 
   constructor (
@@ -44,22 +46,40 @@ export class AnalyzeController {
   ) {}
 
   @Get('hashtag/:query')
-    async getHashtag(@Param('query') query: string): Promise<ModelData[]> {
-      const tweets: Tweet[] = await this.getTweets(query, this.twitterService.getHashtagQuery);
-      return await this.getSentiment(tweets);
+    async getHashtag(@Param('query') query: string): Promise<ModelData[] | string> {
+      try {
+        const tweets: Tweet[] = await this.getTweets(query, this.twitterService.getHashtagQuery);
+        const data: ModelData[] = await this.getSentiment(tweets);
+        return data;
+      } catch (err) {
+        console.error('Analyze Controller > Hashtag Route -- ', err);
+        return 'Insufficient data to provide an analysis. Try a different search!'
+      }
     }
 
   @Get('timeline/:username')
-    async getTimeline(@Param('username') username: string): Promise<ModelData[]> {
-      const userID: number = await this.getTwitterId(username);
-      const tweets: Tweet[] = await this.getTweets(userID, this.twitterService.getUserTimeline);
-      return await this.getSentiment(tweets);
+    async getTimeline(@Param('username') username: string): Promise<ModelData[] | string> {
+      try {
+        const userID: number = await this.getTwitterId(username);
+        const tweets: Tweet[] = await this.getTweets(userID, this.twitterService.getUserTimeline);
+        const data: ModelData[] = await this.getSentiment(tweets);
+        return data;
+      } catch (err) {
+        console.error('Analyze Controller > Timeline Route -- ', err);
+        return 'Insufficient data to provide an analysis. Try a different search!'
+      }
     }
 
   @Get('mentions/:username')
-    async getMentions(@Param('username') username: string): Promise<ModelData[]> {
-      const userID: number = await this.getTwitterId(username);
-      const tweets: Tweet[] = await this.getTweets(userID, this.twitterService.getUserMentions);
-      return await this.getSentiment(tweets);
+    async getMentions(@Param('username') username: string): Promise<ModelData[] | string> {
+      try {
+        const userID: number = await this.getTwitterId(username);
+        const tweets: Tweet[] = await this.getTweets(userID, this.twitterService.getUserMentions);
+        const data: ModelData[] = await this.getSentiment(tweets);
+        return data;
+      } catch (err) {
+        console.error('Analyze Controller > Mentions Route -- ', err);
+        return 'Insufficient data to provide an analysis. Try a different search!'
+      }
     }
 }
