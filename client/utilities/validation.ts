@@ -25,3 +25,11 @@ export function validatePassword (input: string): string | boolean {
   else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(input)) return messages.invalid;
   return true;
 };
+
+export function validateUserQuery (searchTerm: string): string {
+  if (searchTerm === '@') throw new Error('Invalid input.')
+  else {
+    const search = searchTerm.match(/.*?[@|#]+(\w+)\b.*/)![1] || '';
+    return search;
+  }
+}
