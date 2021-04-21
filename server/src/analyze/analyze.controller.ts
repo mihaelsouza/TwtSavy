@@ -1,4 +1,5 @@
-import { tweetToModelData, filterNonEnglish, filterEmptyModelReturns } from './utilities/utils';
+import { tweetToModelData, filterNonEnglish, filterEmptyModelReturns, generateClientPayload } from './utilities/utils';
+import { ClientPayload } from './utilities/client.payload.interface';
 import { ModelData } from './utilities/model.data.interface';
 import { Tweet } from './utilities/tweet.interface';
 
@@ -46,11 +47,11 @@ export class AnalyzeController {
   ) {}
 
   @Get('hashtag/:query')
-    async getHashtag(@Param('query') query: string): Promise<ModelData[] | string> {
+    async getHashtag(@Param('query') query: string): Promise<ClientPayload | string> {
       try {
         const tweets: Tweet[] = await this.getTweets(query, this.twitterService.getHashtagQuery);
         const data: ModelData[] = await this.getSentiment(tweets);
-        return data;
+        return generateClientPayload(data);
       } catch (err) {
         console.error('Analyze Controller > Hashtag Route -- ', err);
         return 'Insufficient data to provide an analysis. Try a different search!'
@@ -58,12 +59,12 @@ export class AnalyzeController {
     }
 
   @Get('timeline/:username')
-    async getTimeline(@Param('username') username: string): Promise<ModelData[] | string> {
+    async getTimeline(@Param('username') username: string): Promise<ClientPayload | string> {
       try {
         const userID: number = await this.getTwitterId(username);
         const tweets: Tweet[] = await this.getTweets(userID, this.twitterService.getUserTimeline);
         const data: ModelData[] = await this.getSentiment(tweets);
-        return data;
+        return generateClientPayload(data);
       } catch (err) {
         console.error('Analyze Controller > Timeline Route -- ', err);
         return 'Insufficient data to provide an analysis. Try a different search!'
@@ -71,12 +72,12 @@ export class AnalyzeController {
     }
 
   @Get('mentions/:username')
-    async getMentions(@Param('username') username: string): Promise<ModelData[] | string> {
+    async getMentions(@Param('username') username: string): Promise<ClientPayload | string> {
       try {
         const userID: number = await this.getTwitterId(username);
         const tweets: Tweet[] = await this.getTweets(userID, this.twitterService.getUserMentions);
         const data: ModelData[] = await this.getSentiment(tweets);
-        return data;
+        return generateClientPayload(data);
       } catch (err) {
         console.error('Analyze Controller > Mentions Route -- ', err);
         return 'Insufficient data to provide an analysis. Try a different search!'
