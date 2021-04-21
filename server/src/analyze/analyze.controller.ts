@@ -12,7 +12,7 @@ import { AxiosResponse } from 'axios';
 export class AnalyzeController {
   private tweets: Tweet[] = [];
 
-  private getTweets: Function = async(search: string | number, func: Function): Promise<void> => {
+  private getTweets: Function = async (search: string | number, func: Function): Promise<void> => {
     let twitterResponse: AxiosResponse = await func.call(this.twitterService, search, '');
     this.tweets = filterNonEnglish(twitterResponse.data.data);
 
@@ -26,6 +26,11 @@ export class AnalyzeController {
       page = twitterResponse.data.meta.next_token;
     }
   };
+
+  private getTwitterId: Function = async (username: string): Promise<number> => {
+    let twitterResponse: AxiosResponse = await this.twitterService.getUserID(username);
+    return twitterResponse.data.data.id;
+  }
 
   constructor (
     private aiService: AnalyzeService,
@@ -41,9 +46,7 @@ export class AnalyzeController {
 
   @Get('timeline/:username')
     async getTimeline(@Param('username') username: string): Promise<ModelData[]> {
-      let twitterResponse: AxiosResponse = await this.twitterService.getUserID(username);
-      const userID = twitterResponse.data.data.id;
-
+      const userID: number = await this.getTwitterId(username);
       await this.getTweets(userID, this.twitterService.getUserTimeline);
       const modelResponse: AxiosResponse = await this.aiService.getSentiment(tweetToModelData(this.tweets));
       return modelResponse.data;
@@ -51,9 +54,7 @@ export class AnalyzeController {
 
   @Get('mentions/:username')
     async getMentions(@Param('username') username: string): Promise<ModelData[]> {
-      let twitterResponse: AxiosResponse = await this.twitterService.getUserID(username);
-      const userID = twitterResponse.data.data.id;
-
+      const userID: number = await this.getTwitterId(username);
       await this.getTweets(userID, this.twitterService.getUserMentions);
       const modelResponse: AxiosResponse = await this.aiService.getSentiment(tweetToModelData(this.tweets));
       return modelResponse.data;
