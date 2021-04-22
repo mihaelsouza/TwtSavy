@@ -2,11 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+import { useAppSelector } from '../redux/hooks';
+
 interface Props {
-  username: string
 };
 
-const Header: React.FC<Props> = ({ username }) => {
+const Header: React.FC<Props> = () => {
+  const username = useAppSelector(state => state.users.username);
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
