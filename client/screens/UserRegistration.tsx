@@ -77,8 +77,8 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
                 value={form[item.prop]}
                 onChangeText={(value) => valueHandler(value, item.prop)}
                 autoCapitalize={item.prop === 'email' ? 'none' : 'words'}
-                keyboardType={item.prop === 'email' ? 'email-address' : 'default'}
-                secureTextEntry={item.prop === 'password' || item.prop === 'repeatPassword' ? true: false}
+                // keyboardType={item.prop === 'email' ? 'email-address' : 'default'} // For some reason, invalidates secureTextEntry...
+                secureTextEntry={item.prop === 'password' || item.prop === 'repeatPassword' ? true : false}
                 style={styles.textInput} placeholder={item.placeholder} placeholderTextColor='#DADADA'
               />
             </View>
