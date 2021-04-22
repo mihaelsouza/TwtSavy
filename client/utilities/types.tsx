@@ -37,11 +37,11 @@ export type DashboardViewRouteProp = RouteProp<StackParamList, 'DashboardView'>;
 
 // Additional types
 export type Form = {
-  [key: string]: string | undefined;
+  [key: string]: string;
   fullName: string;
   email: string;
   username: string;
-  twitterHandle?: string;
+  twitterHandle: string;
   password: string;
   repeatPassword: string;
 }
