@@ -1,25 +1,26 @@
+import { QueryDTO } from '../utilities/query-dto';
 import { UserDTO } from '../utilities/user-dto';
 import { Form } from '../utilities/types';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 const serverAdress: string = 'http://localhost:3005';
 
-export async function checkUser(email: string, password: string): Promise<UserDTO | string> {
+export async function checkUser (email: string, password: string): Promise<UserDTO | string> {
   try{
-    const response = await axios.post(`${serverAdress}/users`, {
+    const response: AxiosResponse = await axios.post(`${serverAdress}/users`, {
       email: email,
       password: password
     });
     return response.data;
   } catch (err) {
-    console.log(err)
+    console.error(err)
     return "Error: can't connect to server.";
   }
 };
 
-export async function createUser(user: Form): Promise<UserDTO | string> {
+export async function createUser (user: Form): Promise<UserDTO | string> {
   try {
-    const response = await axios.post(`${serverAdress}/users/add`, {
+    const response: AxiosResponse = await axios.post(`${serverAdress}/users/add`, {
       name: user.fullName,
       username: user.username,
       email: user.email,
@@ -28,7 +29,17 @@ export async function createUser(user: Form): Promise<UserDTO | string> {
     });
     return response.data;
   } catch(err) {
-    console.log(err)
+    console.error(err)
     return "Error: could not create user. Try again."
   }
 }
+
+export async function twitterQuery (query: string, endpoint: string): Promise<QueryDTO | 'Error'> {
+  try {
+    const response: AxiosResponse = await axios.get(`${serverAdress}/analyze/${endpoint}/${query}`);
+    return response.data;
+  } catch (err) {
+    console.error(err)
+    return "Error";
+  }
+};

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import RNPickerSelect from 'react-native-picker-select';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
 import Button from '../components/Button';
 import Header from '../containers/Header';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
-import { UserDTO } from '../utilities/user-dto';
-import { DashboardViewNavigationProp, DashboardViewRouteProp } from '../utilities/types';
 
+import { twitterQuery } from '../services/clientApi';
+import { UserDTO } from '../utilities/user-dto';
+import { QueryDTO, queryInitialState } from '../utilities/query-dto';
+import { validateUserQuery } from '../utilities/validation';
+import { DashboardViewNavigationProp, DashboardViewRouteProp } from '../utilities/types';
 
 interface Props {
   navigation: DashboardViewNavigationProp,
@@ -18,7 +21,23 @@ interface Props {
 const DashboardView: React.FC<Props> = ({ navigation, route }) => {
   const [endpoint, setEndpoint] = useState<string>('hashtag');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [queryResult, setQueryResult] = useState<QueryDTO>(queryInitialState);
   const user: UserDTO = route.params.user;
+
+  const handleCrunchNumbers: Function = async (): Promise<void> => {
+    try {
+      const query: string = validateUserQuery(`@${searchTerm}`);
+      const values = await twitterQuery(query, endpoint);
+      if (typeof values === 'string') {
+        console.error(values);
+        // navigate to an Error component...
+      } else {
+        setQueryResult({...values});
+      }
+    } catch (err) {
+      Alert.alert('Error.', 'Invalid search term. Try again!')
+    }
+  };
 
   return (
     <Background>
@@ -44,7 +63,7 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
             onChangeText={(text) => setSearchTerm(text)} placeholderTextColor='#DADADA'
           ></TextInput>
         </View>
-        <Button buttonLabel='Crunch Numbers' onPress={() => console.log('crunch numbers')} style={styles.additionalButton}/>
+        <Button buttonLabel='Crunch Numbers' onPress={() => handleCrunchNumbers()} style={styles.additionalButton}/>
         <Text style={styles.text}>... or check out your own twitter!</Text>
         <Button buttonLabel='Analyze Me!' onPress={() => console.log('analyze me')} style={styles.additionalButton}/>
       </ContentBox>
