@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextInput, SafeAreaView, Alert } from 'react-native';
 import Button from '../components/Button';
 import { UserDTO } from '../utilities/user-dto';
 import { UserLoginNavigationProp } from '../utilities/types';
-import { checkUser } from '../services/clientApi';
+import { checkUser, instanceOfApiError } from '../services/clientApi';
 import * as validation from '../utilities/validation';
 
 interface Props {
@@ -22,12 +22,12 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
     const validPassword = validation.validatePassword(form.password);
 
     if (validEmail === true && validPassword === true) {
-      const checkDB: UserDTO | string = await checkUser(form.email, form.password);
-      if (typeof checkDB === 'object') navigation.navigate('DashboardView', {user: checkDB});
-      else Alert.alert('Invalid credentials', checkDB);
-    } else {
-      Alert.alert('Invalid credentials', 'Error: invalid e-mail and/or password.');
-    }
+      const checkDB = await checkUser(form.email, form.password);
+      if (instanceOfApiError(checkDB)) Alert.alert('Invalid credentials', checkDB.error);
+      else {
+        navigation.navigate('DashboardView', {user: checkDB});
+      }
+    } else Alert.alert('Invalid credentials', 'Error: invalid e-mail and/or password.');
   };
 
   return (
