@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
@@ -7,20 +7,21 @@ import Header from '../containers/Header';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
 
-import { twitterQuery, instanceOfApiError } from '../services/clientApi';
-import { UserDTO } from '../utilities/user-dto';
-import { QueryDTO, queryInitialState } from '../utilities/query-dto';
+import { useAppSelector, useAppDispatch } from '../redux/hooks';
+import { updateEndpoint, updateSearch, updateQuery } from '../redux/queryResultSlice';
+
 import { validateUserQuery } from '../utilities/validation';
-import { DashboardViewNavigationProp, DashboardViewRouteProp } from '../utilities/types';
+import { DashboardViewNavigationProp } from '../utilities/types';
+import { twitterQuery, instanceOfApiError } from '../services/clientApi';
 
 interface Props {
   navigation: DashboardViewNavigationProp,
-  route: DashboardViewRouteProp
 };
 
-const DashboardView: React.FC<Props> = ({ navigation, route }) => {
-  const [queryResult, setQueryResult] = useState<QueryDTO>(queryInitialState);
-  const user: UserDTO = route.params.user;
+const DashboardView: React.FC<Props> = ({ navigation }) => {
+  const queryResult = useAppSelector(state => state.queryResult);
+  const user = useAppSelector(state => state.users);
+  const dispatch = useAppDispatch();
 
   const handleCrunchNumbers: Function = async (): Promise<void> => {
     try {
@@ -30,7 +31,8 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
         console.error(values.error);
         // navigate to an Error component...
       } else {
-        setQueryResult({...values});
+        dispatch(updateQuery(values));
+        dispatch(updateSearch(''));
       }
     } catch (err) {
       Alert.alert('Error.', 'Invalid search term. Try again!')
@@ -45,7 +47,7 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
         console.error(values.error);
         // navigate to an Error component...
       } else {
-        setQueryResult({...values});
+        dispatch(updateQuery(values));
       }
     } catch (err) {
       Alert.alert('Error.', `No twitter handler found for ${user.username}. Check your personal settings.`)
@@ -62,7 +64,7 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
         <View style={styles.pickerContainer}>
           <RNPickerSelect
             value={queryResult.endpoint}
-            onValueChange={value => setQueryResult({...queryResult, endpoint: value})}
+            onValueChange={value => dispatch(updateEndpoint(value))}
             items={[
               {label: '#', value: 'hashtag'},
               {label: '@T', value: 'timeline'},
@@ -73,7 +75,8 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
             style={pickerStyles}
           />
           <TextInput
-            onChangeText={text => setQueryResult({...queryResult, search: text})}
+            value={queryResult.search}
+            onChangeText={text => dispatch(updateSearch(text))}
             placeholder='Your search term...'
             placeholderTextColor='#DADADA'
             style={styles.pickerTextInput}

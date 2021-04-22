@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, SafeAreaView, Alert } from 'react-native';
 
+import { useAppSelector, useAppDispatch } from '../redux/hooks';
+import { updateUser } from '../redux/usersSlice';
+
 import Button from '../components/Button';
 import { UserDTO } from '../utilities/user-dto';
 import { UserLoginNavigationProp } from '../utilities/types';
@@ -12,6 +15,9 @@ interface Props {
 };
 
 const UserLogin: React.FC<Props> = ({ navigation }) => {
+  const user = useAppSelector(state => state.users);
+  const dispatch = useAppDispatch();
+
   const [form, setForm] = useState<{
     email: string,
     password: string,
@@ -25,6 +31,12 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
       const checkDB = await checkUser(form.email, form.password);
       if (instanceOfApiError(checkDB)) Alert.alert('Invalid credentials', checkDB.error);
       else {
+        dispatch(updateUser({
+          name: checkDB.name,
+          email: checkDB.email,
+          username: checkDB.username,
+          twitter_handle: checkDB.twitter_handle
+        }));
         navigation.navigate('DashboardView', {user: checkDB});
       }
     } else Alert.alert('Invalid credentials', 'Error: invalid e-mail and/or password.');
