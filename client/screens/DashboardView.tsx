@@ -39,6 +39,21 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
     }
   };
 
+  const handleAnalyzeMe: Function = async (): Promise<void> => {
+    try {
+      const userTwitter: string = validateUserQuery(`@${user.twitter_handle}`);
+      const values = await twitterQuery(userTwitter, 'timeline');
+      if (typeof values === 'string') {
+        console.error(values);
+        // navigate to an Error component...
+      } else {
+        setQueryResult({...values});
+      }
+    } catch (err) {
+      Alert.alert('Error.', `No twitter handler found for ${user.username}. Check your personal settings.`)
+    }
+  };
+
   return (
     <Background>
       <Header username={user.username}/>
@@ -65,7 +80,7 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
         </View>
         <Button buttonLabel='Crunch Numbers' onPress={() => handleCrunchNumbers()} style={styles.additionalButton}/>
         <Text style={styles.text}>... or check out your own twitter!</Text>
-        <Button buttonLabel='Analyze Me!' onPress={() => console.log('analyze me')} style={styles.additionalButton}/>
+        <Button buttonLabel='Analyze Me!' onPress={() => handleAnalyzeMe()} style={styles.additionalButton}/>
       </ContentBox>
     </Background>
   )
