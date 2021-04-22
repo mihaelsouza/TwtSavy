@@ -7,6 +7,7 @@ export type StackParamList = {
   UserLogin: undefined;
   UserRegistration: undefined;
   DashboardView: undefined;
+  ResultsView: undefined;
 };
 
 // Each Screen individual definition
@@ -28,6 +29,11 @@ export type UserRegistrationNavigationProp = StackNavigationProp<
 export type DashboardViewNavigationProp = StackNavigationProp<
   StackParamList,
   'DashboardView'
+>;
+
+export type ResultsViewNavigationProp = StackNavigationProp<
+  StackParamList,
+  'ResultsView'
 >;
 
 // Additional types

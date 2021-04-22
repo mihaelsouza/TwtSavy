@@ -32,7 +32,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
         // navigate to an Error component...
       } else {
         dispatch(updateQuery(values));
-        dispatch(updateSearch(''));
+        navigation.navigate('ResultsView');
       }
     } catch (err) {
       Alert.alert('Error.', 'Invalid search term. Try again!')
@@ -56,7 +56,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
 
   return (
     <Background>
-      <Header username={user.username}/>
+      <Header/>
       <ContentBox>
         <Text style={styles.textHeader}>Hi {`${user.username},`.toUpperCase()}</Text>
         <Text style={styles.text}>Let's draw some insights!</Text>
