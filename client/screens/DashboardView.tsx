@@ -7,7 +7,7 @@ import Header from '../containers/Header';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
 
-import { twitterQuery } from '../services/clientApi';
+import { twitterQuery, instanceOfApiError } from '../services/clientApi';
 import { UserDTO } from '../utilities/user-dto';
 import { QueryDTO, queryInitialState } from '../utilities/query-dto';
 import { validateUserQuery } from '../utilities/validation';
@@ -19,17 +19,15 @@ interface Props {
 };
 
 const DashboardView: React.FC<Props> = ({ navigation, route }) => {
-  const [endpoint, setEndpoint] = useState<string>('hashtag');
-  const [searchTerm, setSearchTerm] = useState<string>('');
   const [queryResult, setQueryResult] = useState<QueryDTO>(queryInitialState);
   const user: UserDTO = route.params.user;
 
   const handleCrunchNumbers: Function = async (): Promise<void> => {
     try {
-      const query: string = validateUserQuery(`@${searchTerm}`);
-      const values = await twitterQuery(query, endpoint);
-      if (typeof values === 'string') {
-        console.error(values);
+      const query: string = validateUserQuery(`@${queryResult.search}`);
+      const values = await twitterQuery(query, queryResult.endpoint);
+      if (instanceOfApiError(values)) {
+        console.error(values.error);
         // navigate to an Error component...
       } else {
         setQueryResult({...values});
@@ -43,8 +41,8 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
     try {
       const userTwitter: string = validateUserQuery(`@${user.twitter_handle}`);
       const values = await twitterQuery(userTwitter, 'timeline');
-      if (typeof values === 'string') {
-        console.error(values);
+      if (instanceOfApiError(values)) {
+        console.error(values.error);
         // navigate to an Error component...
       } else {
         setQueryResult({...values});
@@ -63,8 +61,8 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
         <Text style={styles.text}>Choose a category and search term below to get started...</Text>
         <View style={styles.pickerContainer}>
           <RNPickerSelect
-            value={endpoint}
-            onValueChange={value => setEndpoint(value)}
+            value={queryResult.endpoint}
+            onValueChange={value => setQueryResult({...queryResult, endpoint: value})}
             items={[
               {label: '#', value: 'hashtag'},
               {label: '@T', value: 'timeline'},
@@ -74,8 +72,11 @@ const DashboardView: React.FC<Props> = ({ navigation, route }) => {
             fixAndroidTouchableBug={true}
             style={pickerStyles}
           />
-          <TextInput style={styles.pickerTextInput} placeholder='Your search term...'
-            onChangeText={(text) => setSearchTerm(text)} placeholderTextColor='#DADADA'
+          <TextInput
+            onChangeText={text => setQueryResult({...queryResult, search: text})}
+            placeholder='Your search term...'
+            placeholderTextColor='#DADADA'
+            style={styles.pickerTextInput}
           ></TextInput>
         </View>
         <Button buttonLabel='Crunch Numbers' onPress={() => handleCrunchNumbers()} style={styles.additionalButton}/>
