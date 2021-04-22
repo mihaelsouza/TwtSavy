@@ -1,5 +1,3 @@
-import { UserDTO } from './user-dto';
-import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 // General Screens type definition
