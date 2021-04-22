@@ -5,7 +5,6 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import { updateUser } from '../redux/usersSlice';
 
 import Button from '../components/Button';
-import { UserDTO } from '../utilities/user-dto';
 import { UserLoginNavigationProp } from '../utilities/types';
 import { checkUser, instanceOfApiError } from '../services/clientApi';
 import * as validation from '../utilities/validation';
@@ -37,7 +36,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
           username: checkDB.username,
           twitter_handle: checkDB.twitter_handle
         }));
-        navigation.navigate('DashboardView', {user: checkDB});
+        navigation.navigate('DashboardView');
       }
     } else Alert.alert('Invalid credentials', 'Error: invalid e-mail and/or password.');
   };

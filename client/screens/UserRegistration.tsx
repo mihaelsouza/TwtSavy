@@ -59,7 +59,7 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
         Alert.alert('Incorrect password', 'PASSWORD and REPEAT PASSWORD do NOT match!');
       } else {
         const newUser: UserDTO | string = await createUser(form);
-        if (typeof newUser === 'object') navigation.navigate('DashboardView', {user: newUser});
+        if (typeof newUser === 'object') navigation.navigate('DashboardView');
         else Alert.alert('E-mail conflict', newUser);
       }
     }
@@ -77,7 +77,7 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
                 value={form[item.prop]}
                 onChangeText={(value) => valueHandler(value, item.prop)}
                 autoCapitalize={item.prop === 'email' ? 'none' : 'words'}
-                // keyboardType={item.prop === 'email' ? 'email-address' : 'default'} // For some reason, invalidates secureTextEntry...
+                // keyboardType={item.prop === 'email' ? 'email-address' : 'default'} //TODO: For some reason, invalidates secureTextEntry...
                 secureTextEntry={item.prop === 'password' || item.prop === 'repeatPassword' ? true : false}
                 style={styles.textInput} placeholder={item.placeholder} placeholderTextColor='#DADADA'
               />

@@ -8,7 +8,7 @@ export type StackParamList = {
   LandingView: undefined;
   UserLogin: undefined;
   UserRegistration: undefined;
-  DashboardView: {user: UserDTO};
+  DashboardView: undefined;
 };
 
 // Each Screen individual definition
@@ -31,9 +31,6 @@ export type DashboardViewNavigationProp = StackNavigationProp<
   StackParamList,
   'DashboardView'
 >;
-
-// Route definitions - for when passing parameters while navigating
-export type DashboardViewRouteProp = RouteProp<StackParamList, 'DashboardView'>;
 
 // Additional types
 export type Form = {
