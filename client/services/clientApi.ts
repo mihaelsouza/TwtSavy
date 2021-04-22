@@ -5,6 +5,15 @@ import axios, { AxiosResponse } from 'axios';
 
 const serverAdress: string = 'http://localhost:3005';
 
+interface ApiError {
+  discriminator: 'Error',
+  error?: string
+}
+
+export function instanceOfApiError (object: any): object is ApiError {
+  return object.discriminator === 'Error';
+};
+
 export async function checkUser (email: string, password: string): Promise<UserDTO | string> {
   try{
     const response: AxiosResponse = await axios.post(`${serverAdress}/users`, {
@@ -14,7 +23,7 @@ export async function checkUser (email: string, password: string): Promise<UserD
     return response.data;
   } catch (err) {
     console.error(err)
-    return "Error: can't connect to server.";
+    return 'Error: cannot connect to server.';
   }
 };
 
@@ -30,16 +39,24 @@ export async function createUser (user: Form): Promise<UserDTO | string> {
     return response.data;
   } catch(err) {
     console.error(err)
-    return "Error: could not create user. Try again."
+    return 'Error: could not create user. Try again.';
   }
 }
 
-export async function twitterQuery (query: string, endpoint: string): Promise<QueryDTO | 'Error'> {
+export async function twitterQuery (query: string, endpoint: string): Promise<QueryDTO | ApiError> {
   try {
     const response: AxiosResponse = await axios.get(`${serverAdress}/analyze/${endpoint}/${query}`);
-    return response.data;
+    if (typeof response.data === 'string') return {discriminator: 'Error', error: response.data};
+    else {
+      const result: QueryDTO = {
+        endpoint: endpoint,
+        search: query,
+        ...response.data
+      }
+      return result;
+    }
   } catch (err) {
     console.error(err)
-    return "Error";
+    return {discriminator: 'Error', error: 'Something unexpected happen... Try again!'};
   }
 };
