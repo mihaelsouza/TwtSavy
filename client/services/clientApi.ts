@@ -14,7 +14,7 @@ export function instanceOfApiError (object: any): object is ApiError {
   return object.discriminator === 'Error';
 };
 
-export async function checkUser (email: string, password: string): Promise<UserDTO | string> {
+export async function checkUser (email: string, password: string): Promise<UserDTO | ApiError> {
   try{
     const response: AxiosResponse = await axios.post(`${serverAdress}/users`, {
       email: email,
@@ -23,11 +23,11 @@ export async function checkUser (email: string, password: string): Promise<UserD
     return response.data;
   } catch (err) {
     console.error(err)
-    return 'Error: cannot connect to server.';
+    return {discriminator: 'Error', error: 'Error: cannot connect to server.'};
   }
 };
 
-export async function createUser (user: Form): Promise<UserDTO | string> {
+export async function createUser (user: Form): Promise<UserDTO | ApiError> {
   try {
     const response: AxiosResponse = await axios.post(`${serverAdress}/users/add`, {
       name: user.fullName,
@@ -39,7 +39,7 @@ export async function createUser (user: Form): Promise<UserDTO | string> {
     return response.data;
   } catch(err) {
     console.error(err)
-    return 'Error: could not create user. Try again.';
+    return {discriminator: 'Error', error: 'Error: could not create user. Try again.'};
   }
 }
 

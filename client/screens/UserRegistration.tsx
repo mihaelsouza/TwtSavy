@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../components/Button';
-import { UserDTO } from '../utilities/user-dto';
-import { createUser } from '../services/clientApi';
 import * as validation from '../utilities/validation';
+import { createUser, instanceOfApiError } from '../services/clientApi';
 import { UserRegistrationNavigationProp, Form } from '../utilities/types';
 import { StyleSheet, Text, TextInput, SafeAreaView, FlatList, View, Alert } from 'react-native';
 
@@ -58,9 +57,9 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
         setForm({...form, password: '', repeatPassword: ''});
         Alert.alert('Incorrect password', 'PASSWORD and REPEAT PASSWORD do NOT match!');
       } else {
-        const newUser: UserDTO | string = await createUser(form);
-        if (typeof newUser === 'object') navigation.navigate('DashboardView');
-        else Alert.alert('E-mail conflict', newUser);
+        const newUser = await createUser(form);
+        if (instanceOfApiError(newUser)) Alert.alert('E-mail conflict', newUser.error);
+        else navigation.navigate('DashboardView');
       }
     }
   };
