@@ -20,7 +20,7 @@ export function tweetToModelData (tweets: Tweet[]): ModelData[] {
 };
 
 export function generateClientPayload (data: ModelData[]): ClientPayload {
-  const payload: ClientPayload = {overallSentiment: '', timeSeries: []};
+  const payload: ClientPayload = {overallSentiment: '', averageScore: 0, timeSeries: []};
 
   // Create the timeSeries array
   data.forEach((value) => {
@@ -28,12 +28,12 @@ export function generateClientPayload (data: ModelData[]): ClientPayload {
   })
 
   // Calculate the overall sentiment
-  const averageScore: number = payload.timeSeries.reduce((acc, current) => {
+  payload.averageScore = Math.round(payload.timeSeries.reduce((acc, current) => {
     return {date: current.date, score: acc.score + current.score}
-  }).score / payload.timeSeries.length;
+  }).score / payload.timeSeries.length * 100);
 
-  if (averageScore >= 0.7) payload.overallSentiment = 'positive';
-  else if (averageScore <= 0.3) payload.overallSentiment = 'negative';
+  if (payload.averageScore >= 70) payload.overallSentiment = 'positive';
+  else if (payload.averageScore <= 30) payload.overallSentiment = 'negative';
   else payload.overallSentiment = 'neutral';
 
   return payload;

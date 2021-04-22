@@ -5,5 +5,6 @@ interface DataPoint {
 
 export interface ClientPayload {
   overallSentiment: string,
+  averageScore: number,
   timeSeries: DataPoint[]
 };
