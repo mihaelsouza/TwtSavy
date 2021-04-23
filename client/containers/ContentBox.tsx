@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 
 interface Props {
   children: React.ReactNode;
+  style?: ViewStyle
 }
 
-const ContentBox: React.FC<Props> = ({ children }) => {
+const ContentBox: React.FC<Props> = ({ children, style }) => {
   return (
     <View style={[styles.textBox]}>
       {children}

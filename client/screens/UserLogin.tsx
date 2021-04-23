@@ -33,7 +33,6 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
       dispatch(toggleLoading()); // Show loading indicator
       setTimeout(async () => {
         const checkDB = await checkUser(form.email, form.password);
-        console.log(checkDB)
         if (instanceOfApiError(checkDB)) Alert.alert('Invalid credentials', checkDB.error);
         else {
           dispatch(updateUser({

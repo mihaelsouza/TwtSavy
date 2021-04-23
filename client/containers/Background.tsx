@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, ImageBackground, SafeAreaView, ViewStyle } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface Props {
   children: React.ReactNode;
@@ -10,7 +11,9 @@ const Background: React.FC<Props> = ({ children, style }) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground source={require('../assets/circles-and-roundabouts.png')} style={[styles.backgroundImage, style]}>
-        {children}
+        <ScrollView contentContainerStyle={styles.scroll}>
+          {children}
+        </ScrollView>
       </ImageBackground>
     </SafeAreaView>
   )
@@ -25,4 +28,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.8)',
   },
+  scroll: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 120,
+  }
 });
