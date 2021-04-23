@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, SafeAreaView, Alert } from 'react-native';
 
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
+import { toggleLoading } from '../redux/isLoadingSlice';
 import { updateUser } from '../redux/usersSlice';
 
 import Button from '../components/Button';
+import MySpinner from '../components/MySpinner';
 import { UserLoginNavigationProp } from '../utilities/types';
 import { checkUser, instanceOfApiError } from '../services/clientApi';
 import * as validation from '../utilities/validation';
@@ -14,6 +16,7 @@ interface Props {
 };
 
 const UserLogin: React.FC<Props> = ({ navigation }) => {
+  const loading = useAppSelector(state => state.isLoading);
   const user = useAppSelector(state => state.users);
   const dispatch = useAppDispatch();
 
@@ -22,27 +25,33 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
     password: string,
   }>({email: '', password: ''});
 
-  const logMeIn: Function = async (): Promise<void> => {
+  const logMeIn: Function =(): void => {
     const validEmail = validation.validateEmail(form.email);
     const validPassword = validation.validatePassword(form.password);
 
     if (validEmail === true && validPassword === true) {
-      const checkDB = await checkUser(form.email, form.password);
-      if (instanceOfApiError(checkDB)) Alert.alert('Invalid credentials', checkDB.error);
-      else {
-        dispatch(updateUser({
-          name: checkDB.name,
-          email: checkDB.email,
-          username: checkDB.username,
-          twitter_handle: checkDB.twitter_handle
-        }));
-        navigation.navigate('DashboardView');
-      }
+      dispatch(toggleLoading()); // Show loading indicator
+      setTimeout(async () => {
+        const checkDB = await checkUser(form.email, form.password);
+        console.log(checkDB)
+        if (instanceOfApiError(checkDB)) Alert.alert('Invalid credentials', checkDB.error);
+        else {
+          dispatch(updateUser({
+            name: checkDB.name,
+            email: checkDB.email,
+            username: checkDB.username,
+            twitter_handle: checkDB.twitter_handle
+          }));
+          navigation.navigate('DashboardView');
+        }
+        dispatch(toggleLoading()); // Hide loading indicator
+      }, 500); // UX implementation for the loading indicator
     } else Alert.alert('Invalid credentials', 'Error: invalid e-mail and/or password.');
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      <MySpinner text='Logging in...'/>
       <Text style={styles.headerText}>Login</Text>
       <Text style={styles.text}>EMAIL</Text>
       <TextInput

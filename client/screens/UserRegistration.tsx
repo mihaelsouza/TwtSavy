@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, SafeAreaView, FlatList, View, Alert } from 'react-native';
+
+import { useAppDispatch } from '../redux/hooks';
+import { toggleLoading } from '../redux/isLoadingSlice';
+
 import Button from '../components/Button';
+import MySpinner from '../components/MySpinner';
 import * as validation from '../utilities/validation';
 import { createUser, instanceOfApiError } from '../services/clientApi';
 import { UserRegistrationNavigationProp, Form } from '../utilities/types';
-import { StyleSheet, Text, TextInput, SafeAreaView, FlatList, View, Alert } from 'react-native';
 
 interface Props {
   navigation: UserRegistrationNavigationProp;
@@ -17,6 +22,8 @@ interface Data {
 };
 
 const UserRegistration: React.FC<Props> = ({ navigation }) => {
+  const dispatch = useAppDispatch();
+
   const [form, setForm] = useState<Form>({
     fullName: '',
     email: '',
@@ -37,11 +44,11 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
 
   const valueHandler: Function = (value: string, prop: string): void => {
     const newForm: Form = {...form};
-    newForm[prop] = prop === 'email' ? value.toLowerCase() : value;
+    newForm[prop] = prop === 'email' ? value.toLowerCase().trim() : value.trim();
     setForm(newForm);
   };
 
-  const registerHandle: Function = async (): Promise<void> => {
+  const registerHandle: Function = (): void => {
     if (!form.fullName || !form.username || !form.email || !form.password || !form.repeatPassword) {
       Alert.alert('Invalid Form', 'All fields marked with * are mandatory!');
     } else {
@@ -57,15 +64,20 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
         setForm({...form, password: '', repeatPassword: ''});
         Alert.alert('Incorrect password', 'PASSWORD and REPEAT PASSWORD do NOT match!');
       } else {
-        const newUser = await createUser(form);
-        if (instanceOfApiError(newUser)) Alert.alert('E-mail conflict', newUser.error);
-        else navigation.navigate('DashboardView');
+        dispatch(toggleLoading()); // Show loading indicator
+        setTimeout(async () => {
+          const newUser = await createUser(form);
+          if (instanceOfApiError(newUser)) Alert.alert('E-mail conflict', newUser.error);
+          else navigation.navigate('DashboardView');
+          dispatch(toggleLoading()); // Hide loading indicator
+        }, 500); // UX implementation for the loading indicator
       }
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      <MySpinner text='Logging in...'/>
       <FlatList
         data={data}
         renderItem={({ item }) => {
