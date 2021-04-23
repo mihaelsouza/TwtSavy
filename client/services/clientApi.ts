@@ -20,6 +20,7 @@ export async function checkUser (email: string, password: string): Promise<UserD
       email: email,
       password: password
     });
+    if (typeof response.data === 'string') return {discriminator: 'Error', error: response.data};
     return response.data;
   } catch (err) {
     console.error(err)
@@ -36,6 +37,7 @@ export async function createUser (user: Form): Promise<UserDTO | ApiError> {
       password: user.password,
       twitter_handle: user.twitterHandle
     });
+    if (typeof response.data === 'string') return {discriminator: 'Error', error: response.data};
     return response.data;
   } catch(err) {
     console.error(err)
