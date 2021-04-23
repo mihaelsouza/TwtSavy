@@ -9,6 +9,7 @@ import Button from '../components/Button';
 import { useAppSelector } from '../redux/hooks';
 
 import { ResultsViewNavigationProp } from '../utilities/types';
+import TimeSeriesChart from '../components/TimeSeriesChart';
 
 interface Props {
   navigation: ResultsViewNavigationProp
@@ -44,13 +45,13 @@ const ResultsView: React.FC<Props> = ({ navigation }) => {
         </Text>
         <Text style={styles.text}>{`...with an average score of ${queryResults.averageScore}%`}</Text>
       </ContentBox>
-      <ContentBox>
-        <Text>Time Series plot will go here...</Text>
+      <ContentBox style={{padding: 0}}>
+        <TimeSeriesChart />
+        <View style={styles.buttonArray}>
+          <Button buttonLabel='The Bad' onPress={() => console.log('the bad')} style={{...styles.additionalButton, backgroundColor: '#A90B0B'}}/>
+          <Button buttonLabel='The Good' onPress={() => console.log('the good')} style={{...styles.additionalButton, backgroundColor: '#0D7D0D'}}/>
+        </View>
       </ContentBox>
-      <View style={styles.buttonArray}>
-        <Button buttonLabel='The Bad' onPress={() => console.log('the bad')} style={{...styles.additionalButton, backgroundColor: '#A90B0B'}}/>
-        <Button buttonLabel='The Good' onPress={() => console.log('the good')} style={{...styles.additionalButton, backgroundColor: '#0D7D0D'}}/>
-      </View>
     </Background>
   )
 };
@@ -79,5 +80,6 @@ const styles = StyleSheet.create({
   additionalButton: {
     marginRight: 5,
     marginLeft: 5,
+    marginBottom: 2
   },
 });

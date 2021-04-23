@@ -1,12 +1,14 @@
+export interface DataPoint {
+  date: string,
+  score: number
+};
+
 export interface QueryDTO {
   endpoint: string,
   search: string,
   overallSentiment: string,
   averageScore: number,
-  timeSeries: [{
-    date: string,
-    score: number
-  }]
+  timeSeries: DataPoint[]
 };
 
 export const queryInitialState: QueryDTO = {
