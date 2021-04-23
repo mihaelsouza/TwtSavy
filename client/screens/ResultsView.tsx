@@ -16,10 +16,11 @@ interface Props {
 
 const ResultsView: React.FC<Props> = ({ navigation }) => {
   const queryResults = useAppSelector(state => state.queryResult);
+  const indicator: string = queryResults.endpoint === 'hashtag' ? '#' : '@';
   const intro: string = queryResults.endpoint === 'timeline' ?
-    `The overall sentiment of\n"${queryResults.search}"'s timeline is...`
+    `The overall sentiment of\n"${indicator}${queryResults.search}"'s timeline is...`
   :
-    `The overall sentiment associated with "${queryResults.search}" is...`;
+    `The overall sentiment associated with "${indicator}${queryResults.search}" is...`;
 
   return (
     <Background>
