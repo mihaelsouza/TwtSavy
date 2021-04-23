@@ -31,6 +31,6 @@ const styles = StyleSheet.create({
   scroll: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 120,
+    paddingBottom: 100,
   }
 });
