@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   spinnerText: {
     fontSize: 20,
     color: 'white',
-    fontFamily: 'FrederickatheGreat-Regular',
+    textAlign: 'center',
+    fontFamily: 'Raleway-Regular',
   },
 });

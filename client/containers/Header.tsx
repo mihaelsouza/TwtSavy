@@ -17,7 +17,7 @@ const Header: React.FC<Props> = () => {
         <Text style={styles.headerTxt}>TwtSavy</Text>
       </View>
       <View style={{...styles.logoContainer, justifyContent: 'flex-end'}}>
-        <Text>{username.toUpperCase()}</Text>
+        <Text style={styles.headerTxt}>{username.toUpperCase()}</Text>
         <FontAwesome5.Button name={'hamburger'} style={styles.hamburger} onPress={() => {console.log('hamburger')}}
           size={25} backgroundColor='transparent' color='black'
         />
