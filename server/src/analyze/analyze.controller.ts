@@ -8,6 +8,7 @@ import { AnalyzeService } from './services/analyze.service';
 
 import { Controller, Get, Param } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
+import { UsersService } from 'src/users/services/users.service';
 
 @Controller('analyze')
 export class AnalyzeController {
@@ -41,43 +42,65 @@ export class AnalyzeController {
     else return modelData;
   };
 
+  private processingPipeline: Function = async (userId: number, input: string, endpoint: string) => {
+    let callBack: Function, query: string | number;
+    if (endpoint === 'hashtag') {
+      query = input;
+      callBack = this.twitterService.getHashtagQuery;
+    } else {
+      query = await this.getTwitterId(input);
+      callBack = endpoint === 'timeline' ? this.twitterService.getUserTimeline : this.twitterService.getUserMentions;
+    }
+
+    // Check database for the search to avoid repeating searches unnecessarily
+    const savedSearch = await this.usersService.retrieveSearch(userId, `${endpoint}&${input}`);
+    if (savedSearch.overallSentiment !== 'dummy') {
+      return savedSearch;
+    } else {
+      const tweets: Tweet[] = await this.getTweets(query, callBack);
+      const data: ModelData[] = await this.getSentiment(tweets);
+      const payload: ClientPayload = generateClientPayload(data);
+      this.usersService.saveSearch(userId, `${endpoint}&${input}`, payload); // Save search to database under this user
+      return payload;
+    }
+  };
+
   constructor (
     private aiService: AnalyzeService,
+    private usersService: UsersService,
     private twitterService: TwitterApiService
   ) {}
 
-  @Get('hashtag/:query')
-    async getHashtag(@Param('query') query: string): Promise<ClientPayload | string> {
+  @Get('hashtag/:query/:id')
+    async getHashtag(
+      @Param('query') query: string, @Param('id') userId: number
+    ): Promise<ClientPayload | string> {
       try {
-        const tweets: Tweet[] = await this.getTweets(query, this.twitterService.getHashtagQuery);
-        const data: ModelData[] = await this.getSentiment(tweets);
-        return generateClientPayload(data);
+        return await this.processingPipeline(userId, query, 'hashtag');
       } catch (err) {
         console.error('Analyze Controller > Hashtag Route -- ', err);
         return 'Insufficient data to provide an analysis. Try a different search!'
       }
     }
 
-  @Get('timeline/:username')
-    async getTimeline(@Param('username') username: string): Promise<ClientPayload | string> {
+  @Get('timeline/:username/:id')
+    async getTimeline(
+      @Param('username') username: string, @Param('id') userId: number
+    ): Promise<ClientPayload | string> {
       try {
-        const userID: number = await this.getTwitterId(username);
-        const tweets: Tweet[] = await this.getTweets(userID, this.twitterService.getUserTimeline);
-        const data: ModelData[] = await this.getSentiment(tweets);
-        return generateClientPayload(data);
+        return await this.processingPipeline(userId, username, 'timeline');
       } catch (err) {
         console.error('Analyze Controller > Timeline Route -- ', err);
         return 'Insufficient data to provide an analysis. Try a different search!'
       }
     }
 
-  @Get('mentions/:username')
-    async getMentions(@Param('username') username: string): Promise<ClientPayload | string> {
+  @Get('mentions/:username/:id')
+    async getMentions(
+      @Param('username') username: string, @Param('id') userId: number
+    ): Promise<ClientPayload | string> {
       try {
-        const userID: number = await this.getTwitterId(username);
-        const tweets: Tweet[] = await this.getTweets(userID, this.twitterService.getUserMentions);
-        const data: ModelData[] = await this.getSentiment(tweets);
-        return generateClientPayload(data);
+        return await this.processingPipeline(userId, username, 'mentions');
       } catch (err) {
         console.error('Analyze Controller > Mentions Route -- ', err);
         return 'Insufficient data to provide an analysis. Try a different search!'

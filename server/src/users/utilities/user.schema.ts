@@ -1,3 +1,4 @@
+import { ClientPayload } from '../../analyze/utilities/client.payload.interface';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -19,6 +20,12 @@ export class User {
 
   @Prop({required: false})
   twitter_handle: string;
+
+  @Prop({required: false})
+  searches: {
+    query: string;
+    data: ClientPayload;
+  }[]
 };
 
 export const UserSchema = SchemaFactory.createForClass(User);
