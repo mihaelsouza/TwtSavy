@@ -9,7 +9,6 @@ import Button from '../components/Button';
 import { useAppSelector } from '../redux/hooks';
 
 import { ResultsViewNavigationProp } from '../utilities/types';
-import { queryResultSlice } from '../redux/queryResultSlice';
 
 interface Props {
   navigation: ResultsViewNavigationProp
@@ -17,12 +16,16 @@ interface Props {
 
 const ResultsView: React.FC<Props> = ({ navigation }) => {
   const queryResults = useAppSelector(state => state.queryResult);
+  const intro: string = queryResults.endpoint === 'timeline' ?
+    `The overall sentiment of\n"${queryResults.search}"'s timeline is...`
+  :
+    `The overall sentiment associated with "${queryResults.search}" is...`;
 
   return (
     <Background>
       <Header />
       <ContentBox>
-        <Text style={styles.text}>{`The overall sentiment associated with "${queryResults.search}" is...`}</Text>
+        <Text style={styles.text}>{intro}</Text>
         <Text style={[
           styles.textHeader,
           {color:
@@ -44,8 +47,8 @@ const ResultsView: React.FC<Props> = ({ navigation }) => {
         <Text>Time Series plot will go here...</Text>
       </ContentBox>
       <View style={styles.buttonArray}>
-        <Button buttonLabel='The Bad' onPress={() => console.log('the bad')} style={{...styles.additionalButton, backgroundColor: 'red'}}/>
-        <Button buttonLabel='The Good' onPress={() => console.log('the good')} style={{...styles.additionalButton, backgroundColor: 'green'}}/>
+        <Button buttonLabel='The Bad' onPress={() => console.log('the bad')} style={{...styles.additionalButton, backgroundColor: '#A90B0B'}}/>
+        <Button buttonLabel='The Good' onPress={() => console.log('the good')} style={{...styles.additionalButton, backgroundColor: '#0D7D0D'}}/>
       </View>
     </Background>
   )
@@ -57,8 +60,8 @@ const styles = StyleSheet.create({
   textHeader: {
     fontFamily: 'FrederickatheGreat-Regular',
     fontSize: 55,
-    marginBottom: 10,
-    marginTop: 10,
+    marginBottom: 5,
+    marginTop: 5,
     textAlign: 'center',
   },
   text: {
