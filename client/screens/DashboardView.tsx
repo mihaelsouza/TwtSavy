@@ -4,9 +4,11 @@ import { StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
 import Button from '../components/Button';
 import Header from '../containers/Header';
+import MySpinner from '../components/MySpinner';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
 
+import { toggleLoading } from '../redux/isLoadingSlice';
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import { updateEndpoint, updateSearch, updateQuery } from '../redux/queryResultSlice';
 
@@ -24,6 +26,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
 
   const handleCrunchNumbers: Function = async (): Promise<void> => {
+    dispatch(toggleLoading());
     try {
       const query: string = validateUserQuery(`@${queryResult.search}`);
       const values = await twitterQuery(query, queryResult.endpoint);
@@ -37,9 +40,11 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
     } catch (err) {
       Alert.alert('Error.', 'Invalid search term. Try again!')
     }
+    dispatch(toggleLoading());
   };
 
   const handleAnalyzeMe: Function = async (): Promise<void> => {
+    dispatch(toggleLoading());
     try {
       const userTwitter: string = validateUserQuery(`@${user.twitter_handle}`);
       const values = await twitterQuery(userTwitter, 'timeline');
@@ -52,10 +57,12 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
     } catch (err) {
       Alert.alert('Error.', `No twitter handler found for ${user.username}. Check your personal settings.`)
     }
+    dispatch(toggleLoading());
   };
 
   return (
     <Background>
+      <MySpinner text={'Analyzing Twitter Data.\nThis may take a moment...'} />
       <Header/>
       <ContentBox>
         <Text style={styles.textHeader}>Hi {`${user.username},`.toUpperCase()}</Text>

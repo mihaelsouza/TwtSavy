@@ -27,7 +27,6 @@ export default MySpinner;
 const styles = StyleSheet.create({
   spinnerText: {
     fontSize: 20,
-    paddingTop: 10,
     color: 'white',
     fontFamily: 'FrederickatheGreat-Regular',
   },
