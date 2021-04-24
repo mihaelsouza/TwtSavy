@@ -1,4 +1,4 @@
-# TwtSavy
+# TwtSavy <img src="./client/assets/logo.png" width="25px" height="25px"> 
 
 Have you ever wondered what tone the things you tweet might feel like to others?  
 What about that company you really like? When people mention it, is it overall good or bad?  
@@ -50,18 +50,24 @@ twtsavy (root)
 
 ## Tech Stack
 ### FrontEnd
-1. Built using React Native
+<img src="./logos/icons8-react-native.svg"><img src="./logos/icons8-redux.svg"><img src="./logos/icons8-typescript.svg"> 
+
+1. Built using React Native 
 2. State management using Redux
 3. HTTP calls using AXIOS
 4. Written in TypeScript
 
 ### Backend
+<img src="./logos/nestjs.png" width="45px" height="45px"><img src="./logos/icons8-mongodb.svg"><img src="./logos/mongoose.png" width="70px" height="45px"><img src="./logos/icons8-typescript.svg"> 
+
 1. Built using NestJS
 2. Connected to MongoDB using Mongoose
 3. HTTP calls using AXIOS
 4. Written in TypeScript
 
 ### AI Model API
+<img src="./logos/django.png" width="70px" height="45px"><img src="./logos/icons8-tensorflow.svg"><img src="./logos/icons8-postgresql.svg"><img src="./logos/icons8-python.svg"> 
+
 1. Built using DJANGO
 2. Minimal UI using the DJANGO REST Framework
 3. Model developed using Tensorflow/Keras
