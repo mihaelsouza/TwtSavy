@@ -1,8 +1,8 @@
+import { Injectable, HttpService, InternalServerErrorException } from '@nestjs/common';
 import { filterNonEnglish, tweetToModelData } from '../utilities/utils';
 import { ModelDataDTO } from '../utilities/model.data.interface';
 import { TweetDTO } from '../utilities/tweet.interface';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { Injectable, HttpService } from '@nestjs/common';
 
 @Injectable()
 export class TwitterApiService {
@@ -27,14 +27,19 @@ export class TwitterApiService {
       callBack = endpoint === 'timeline' ? this.getUserTimeline : this.getUserMentions;
     }
 
-    const tweets = await this.getTweetWithPagination(query, callBack)
-    return tweetToModelData(tweets);
+    try {
+      const tweets = await this.getTweetWithPagination(query, callBack);
+      if (tweets.length < 10) throw new InternalServerErrorException('Insufficient number of valid tweets after processing.');
+      else return tweetToModelData(tweets);
+    } catch (err) {
+      console.error(err);
+      throw new InternalServerErrorException('Insufficient number of valid tweets after processing.');
+    }
   };
 
   async getTweetWithPagination(search: string | number, func: Function): Promise<TweetDTO[]> {
     let twitterResponse: AxiosResponse = await func.call(this, search, '');
     let tweets: TweetDTO[] = filterNonEnglish(twitterResponse.data.data || []);
-    if (tweets.length < 10) throw new Error('Insufficient number of tweets to analyze.');
 
     let count: number = 0;
     let page: string = twitterResponse.data.meta.next_token || '';
