@@ -1,4 +1,4 @@
-import { ClientPayload } from '../../analyze/utilities/client.payload.interface';
+import { ClientPayloadDTO } from '../../analyze/utilities/client.payload.interface';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -24,7 +24,7 @@ export class User {
   @Prop({required: false})
   searches: {
     query: string;
-    data: ClientPayload;
+    data: ClientPayloadDTO;
   }[]
 };
 

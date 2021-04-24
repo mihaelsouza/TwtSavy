@@ -1,16 +1,16 @@
-import { ClientPayload } from './client.payload.interface';
-import { ModelData } from './model.data.interface';
-import { Tweet } from './tweet.interface';
+import { ClientPayloadDTO } from './client.payload.interface';
+import { ModelDataDTO } from './model.data.interface';
+import { TweetDTO } from './tweet.interface';
 
-export function filterNonEnglish (tweets: Tweet[]): Tweet[] {
+export function filterNonEnglish (tweets: TweetDTO[]): TweetDTO[] {
   return tweets.filter((tweet) => tweet.lang === 'en');
 };
 
-export function filterEmptyModelReturns (data: ModelData[]): ModelData[] {
+export function filterEmptyModelReturns (data: ModelDataDTO[]): ModelDataDTO[] {
   return data.filter((data) => data.sentiment !== 'invalid');
 };
 
-export function tweetToModelData (tweets: Tweet[]): ModelData[] {
+export function tweetToModelData (tweets: TweetDTO[]): ModelDataDTO[] {
   return tweets.map((tweet) => {
     return {
       text: tweet.text,
@@ -19,8 +19,8 @@ export function tweetToModelData (tweets: Tweet[]): ModelData[] {
   });
 };
 
-export function generateClientPayload (data: ModelData[]): ClientPayload {
-  const payload: ClientPayload = {overallSentiment: '', averageScore: 0, timeSeries: []};
+export function generateClientPayload (data: ModelDataDTO[]): ClientPayloadDTO {
+  const payload: ClientPayloadDTO = {overallSentiment: '', averageScore: 0, timeSeries: []};
 
   // Create the timeSeries array
   data.forEach((value) => {
