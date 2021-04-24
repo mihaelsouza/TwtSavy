@@ -24,6 +24,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
   const queryResult = useAppSelector(state => state.queryResult);
   const user = useAppSelector(state => state.users);
   const dispatch = useAppDispatch();
+  console.log(typeof user._id)
 
   const handleCrunchNumbers: Function = async (): Promise<void> => {
     dispatch(toggleLoading());
