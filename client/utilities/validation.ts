@@ -30,6 +30,6 @@ export function validateUserQuery (searchTerm: string): string {
   if (searchTerm === '@') throw new Error('Invalid input.')
   else {
     const search = searchTerm.match(/.*?[@|#]+(\w+)\b.*/)![1] || '';
-    return search;
+    return search.toLowerCase();
   }
 }

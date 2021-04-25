@@ -1,5 +1,6 @@
 export interface DataPoint {
   date: string,
+  text: string,
   score: number
 };
 
@@ -18,6 +19,7 @@ export const queryInitialState: QueryDTO = {
   averageScore: 0,
   timeSeries: [{
     date: '',
+    text: '',
     score: 0
   }]
 };
