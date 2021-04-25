@@ -1,5 +1,5 @@
 export interface UserDTO {
-  _id: number,
+  _id: string,
   name: string,
   email: string,
   username: string,
@@ -7,7 +7,7 @@ export interface UserDTO {
 };
 
 export const userInitialState: UserDTO = {
-  _id: 0,
+  _id: '',
   name: '',
   email: '',
   username: '',

@@ -24,13 +24,12 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
   const queryResult = useAppSelector(state => state.queryResult);
   const user = useAppSelector(state => state.users);
   const dispatch = useAppDispatch();
-  console.log(typeof user._id)
 
   const handleCrunchNumbers: Function = async (): Promise<void> => {
     dispatch(toggleLoading());
     try {
       const query: string = validateUserQuery(`@${queryResult.search}`);
-      const values = await twitterQuery(query, queryResult.endpoint);
+      const values = await twitterQuery(user._id, query, queryResult.endpoint);
       if (instanceOfApiError(values)) {
         console.error(values.error);
         // navigate to an Error component...
@@ -48,7 +47,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
     dispatch(toggleLoading());
     try {
       const userTwitter: string = validateUserQuery(`@${user.twitter_handle}`);
-      const values = await twitterQuery(userTwitter, 'timeline');
+      const values = await twitterQuery(user._id, userTwitter, 'timeline');
       if (instanceOfApiError(values)) {
         console.error(values.error);
         // navigate to an Error component...

@@ -36,7 +36,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
         if (instanceOfApiError(checkDB)) Alert.alert('Invalid credentials', checkDB.error);
         else {
           dispatch(updateUser({
-            _id: +checkDB._id,
+            _id: checkDB._id,
             name: checkDB.name,
             email: checkDB.email,
             username: checkDB.username,
