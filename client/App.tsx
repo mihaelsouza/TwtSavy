@@ -12,6 +12,7 @@ import UserRegistration from './screens/UserRegistration';
 import LandingView from './screens/LandingView';
 import DashboardView from './screens/DashboardView';
 import ResultsView from './screens/ResultsView';
+import OutcomesView from './screens/OutcomesView';
 
 const RootStack = createStackNavigator<StackParamList>();
 const Stack = createStackNavigator<StackParamList>();
@@ -22,6 +23,7 @@ const StackScreen = () => {
       <Stack.Screen name='LandingView' component={LandingView}/>
       <Stack.Screen name='DashboardView' component={DashboardView}/>
       <Stack.Screen name='ResultsView' component={ResultsView}/>
+      <Stack.Screen name='OutcomesView' component={OutcomesView}/>
     </Stack.Navigator>
   );
 };

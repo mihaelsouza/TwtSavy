@@ -27,9 +27,12 @@ const ResultsView: React.FC<Props> = ({ navigation }) => {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    console.log('word cloud hook')
     dispatch(updateWordFrequency(generateWordClouds(queryResults.timeSeries)));
   }, [queryResults.timeSeries]);
+
+  const handleOutcomesButton: Function = (outcome: string) => {
+    navigation.navigate('OutcomesView', {outcome});
+  };
 
   return (
     <Background>
@@ -56,8 +59,12 @@ const ResultsView: React.FC<Props> = ({ navigation }) => {
       <ContentBox style={{padding: 0}}>
         <TimeSeriesChart />
         <View style={styles.buttonArray}>
-          <Button buttonLabel='The Bad' onPress={() => console.log('the bad')} style={{...styles.additionalButton, backgroundColor: '#A90B0B'}}/>
-          <Button buttonLabel='The Good' onPress={() => console.log('the good')} style={{...styles.additionalButton, backgroundColor: '#0D7D0D'}}/>
+          <Button buttonLabel='The Bad' onPress={() => handleOutcomesButton('negative')}
+            style={{...styles.additionalButton, backgroundColor: '#A90B0B'}}
+          />
+          <Button buttonLabel='The Good' onPress={() => handleOutcomesButton('positive')}
+          style={{...styles.additionalButton, backgroundColor: '#0D7D0D'}}
+          />
         </View>
       </ContentBox>
     </Background>
