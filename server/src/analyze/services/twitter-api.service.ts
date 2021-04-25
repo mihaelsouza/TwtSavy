@@ -1,7 +1,7 @@
-import { Injectable, HttpService, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, HttpService, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { filterNonEnglish, tweetToModelData } from '../utilities/utils';
-import { ModelDataDTO } from '../utilities/model.data.interface';
-import { TweetDTO } from '../utilities/tweet.interface';
+import { ModelDataDTO } from '../utilities/model.data-dto';
+import { TweetDTO } from '../utilities/tweet-dto';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 
 @Injectable()
@@ -29,11 +29,12 @@ export class TwitterApiService {
 
     try {
       const tweets = await this.getTweetWithPagination(query, callBack);
-      if (tweets.length < 10) throw new InternalServerErrorException('Insufficient number of valid tweets after processing.');
+      if (tweets.length < 10) throw new BadRequestException('Insufficient number of valid tweets after processing.');
       else return tweetToModelData(tweets);
     } catch (err) {
-      console.error(err);
-      throw new InternalServerErrorException('Insufficient number of valid tweets after processing.');
+      throw err.status === 400 ?
+        new BadRequestException('Insufficient number of valid tweets after processing.') :
+        new InternalServerErrorException('Internal Server Error when communicating with the TwitterAPI.');
     }
   };
 

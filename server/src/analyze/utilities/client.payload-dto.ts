@@ -1,6 +1,6 @@
 export const ClientPayloadDummy = {
-  overallSentiment: 'dummy',
-  averageScore: 0,
+  overallSentiment: '',
+  averageScore: -999,
   timeSeries: [{
     date: '',
     score: 0

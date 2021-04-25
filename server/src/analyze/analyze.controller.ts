@@ -12,37 +12,42 @@ export class AnalyzeController {
     private twitterService: TwitterApiService
   ) {}
 
-  async processingPipeline (userId: number, input: string, endpoint: string) {
+  async processingPipeline (userId: string, input: string, endpoint: string) {
     // Check database for the search to avoid repeating searches unnecessarily
     const savedSearch = await this.usersService.retrieveSearch(userId, `${endpoint}&${input}`);
-    if (savedSearch.overallSentiment !== 'dummy') {
+    if (savedSearch.averageScore !== -999) {
       return savedSearch;
     } else {
-      const tweets = await this.twitterService.getTweets(input, endpoint);
-      const payload = await this.aiService.getSentiment(tweets);
-      this.usersService.saveSearch(userId, `${endpoint}&${input}`, payload); // Save search to database under this user
-      return payload;
+      try {
+        const tweets = await this.twitterService.getTweets(input, endpoint);
+        const payload = await this.aiService.getSentiment(tweets);
+        this.usersService.saveSearch(userId, `${endpoint}&${input}`, payload); // Save search to database under this user
+        return payload;
+      } catch (err) {
+        console.error(err)
+        throw err;
+      }
     }
   };
 
   @Get('hashtag/:query/:id')
   @UsePipes(ValidationPipe)
     async getHashtag(
-      @Param('query') query: string, @Param('id') userId: number
+      @Param('query') query: string, @Param('id') userId: string
     ): Promise<ClientPayloadDTO> {
       return await this.processingPipeline(userId, query, 'hashtag');
     }
 
   @Get('timeline/:username/:id')
     async getTimeline(
-      @Param('username') username: string, @Param('id') userId: number
+      @Param('username') username: string, @Param('id') userId: string
     ): Promise<ClientPayloadDTO> {
       return await this.processingPipeline(userId, username, 'timeline');
     }
 
   @Get('mentions/:username/:id')
     async getMentions(
-      @Param('username') username: string, @Param('id') userId: number
+      @Param('username') username: string, @Param('id') userId: string
     ): Promise<ClientPayloadDTO> {
       return await this.processingPipeline(userId, username, 'mentions');
     }
