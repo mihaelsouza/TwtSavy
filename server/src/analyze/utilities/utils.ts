@@ -1,6 +1,6 @@
-import { ClientPayloadDTO } from './client.payload.interface';
-import { ModelDataDTO } from './model.data.interface';
-import { TweetDTO } from './tweet.interface';
+import { ClientPayloadDTO } from './client.payload-dto';
+import { ModelDataDTO } from './model.data-dto';
+import { TweetDTO } from './tweet-dto';
 
 export function filterNonEnglish (tweets: TweetDTO[]): TweetDTO[] {
   return tweets.filter((tweet) => tweet.lang === 'en');
