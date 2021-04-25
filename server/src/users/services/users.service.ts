@@ -73,7 +73,7 @@ export class UsersService {
     } else throw new NotFoundException('Error: e-mail not registered!');
   }
 
-  async saveSearch(id: number, query: string, search: ClientPayloadDTO): Promise<void> {
+  async saveSearch(id: string, query: string, search: ClientPayloadDTO): Promise<void> {
     await this.userModel.updateOne(
       {_id: id},
       {$push: {
@@ -85,12 +85,11 @@ export class UsersService {
     );
   };
 
-  async retrieveSearch(id: number, query: string): Promise<ClientPayloadDTO> {
+  async retrieveSearch(id: string, query: string): Promise<ClientPayloadDTO> {
     try {
       const document = await this.userModel.findOne({ _id: id, 'searches.query': query});
       return document.searches.filter(item => item.query === query)[0].data;
     } catch (err) {
-      console.error(err)
       return ClientPayloadDummy;
     }
   }
