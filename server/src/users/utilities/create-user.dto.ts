@@ -1,17 +1,10 @@
-// export interface UserDTO {
-//   name: string,
-//   email: string,
-//   username: string,
-//   password: string,
-//   twitter_handle?: string
-// };
-
 import { IsNotEmpty, IsString, IsEmail, IsOptional, IsMongoId } from 'class-validator';
+import { ObjectId } from 'mongoose';
 
 export class UserDTO {
   @IsOptional()
   @IsMongoId()
-  _id?: string;
+  _id?: ObjectId;
 
   @IsNotEmpty()
   @IsString()
@@ -26,11 +19,11 @@ export class UserDTO {
   @IsString()
   username: string;
 
-  @IsNotEmpty()
-  @IsString()
-  password: string;
-
   @IsOptional()
   @IsString()
-  twitter_handle?: string;
+  password?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  twitter_handle: string;
 };

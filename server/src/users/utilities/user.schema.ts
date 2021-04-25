@@ -1,11 +1,14 @@
 import { ClientPayloadDTO } from '../../analyze/utilities/client.payload.interface';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, ObjectId } from 'mongoose';
 
 export type UserDocument = User & Document;
 
 @Schema()
 export class User {
+  @Prop({required: true})
+  _id: ObjectId;
+
   @Prop({required: true})
   name: string;
 
