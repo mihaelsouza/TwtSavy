@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, SafeAreaView, FlatList, View, Alert } from 'react-native';
 
 import { useAppDispatch } from '../redux/hooks';
+import { updateUser } from '../redux/usersSlice';
 import { toggleLoading } from '../redux/isLoadingSlice';
 
 import Button from '../components/Button';
@@ -44,7 +45,7 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
 
   const valueHandler: Function = (value: string, prop: string): void => {
     const newForm: Form = {...form};
-    newForm[prop] = prop === 'email' ? value.toLowerCase().trim() : value.trim();
+    newForm[prop] = prop === 'email' ? value.toLowerCase().trim() : value;
     setForm(newForm);
   };
 
@@ -68,7 +69,16 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
         setTimeout(async () => {
           const newUser = await createUser(form);
           if (instanceOfApiError(newUser)) Alert.alert('E-mail conflict', newUser.error);
-          else navigation.navigate('DashboardView');
+          else {
+            dispatch(updateUser({
+              _id: newUser._id,
+              name: newUser.name,
+              email: newUser.email,
+              username: newUser.username,
+              twitter_handle: newUser.twitter_handle
+            }));
+            navigation.navigate('DashboardView');
+          }
           dispatch(toggleLoading()); // Hide loading indicator
         }, 500); // UX implementation for the loading indicator
       }
