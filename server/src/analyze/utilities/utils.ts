@@ -24,12 +24,17 @@ export function generateClientPayload (data: ModelDataDTO[]): ClientPayloadDTO {
 
   // Create the timeSeries array
   data.forEach((value) => {
-    payload.timeSeries = [...payload.timeSeries, {date: value.date, score: value.score}]
+    payload.timeSeries = [
+      ...payload.timeSeries, {
+        date: value.date,
+        text: value.text,
+        score: value.score
+      }]
   })
 
   // Calculate the overall sentiment
   payload.averageScore = Math.round(payload.timeSeries.reduce((acc, current) => {
-    return {date: current.date, score: acc.score + current.score}
+    return {date: current.date, text: current.text, score: acc.score + current.score}
   }).score / payload.timeSeries.length * 100);
 
   if (payload.averageScore >= 70) payload.overallSentiment = 'positive';

@@ -3,6 +3,7 @@ export const ClientPayloadDummy = {
   averageScore: -999,
   timeSeries: [{
     date: '',
+    text: '',
     score: 0
   }]
 };
@@ -11,6 +12,7 @@ import { IsNotEmpty, IsString, IsNumber, IsArray, ArrayNotEmpty } from 'class-va
 
 interface DataPoint {
   date: string,
+  text: string,
   score: number
 };
 
