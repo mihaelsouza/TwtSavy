@@ -1,4 +1,4 @@
-# TwtSavy <img src="./client/assets/logo.png" width="25px" height="25px"> 
+# <img src="./logos/logo_no_borders.svg" width="28px" height="28px"> TwtSavy 
 
 Have you ever wondered what tone the things you tweet might feel like to others?  
 What about that company you really like? When people mention it, is it overall good or bad?  
@@ -19,6 +19,7 @@ You are more than welcome to fork the repo and play around with it at will. Nece
 Boilerplate folders without any business logic are omitted from the below tree.  
 ```
 twtsavy (root)  
+│
 ├── client  **React Native Mobile App  
 │   ├── __tests__
 │   ├── android  
@@ -31,6 +32,8 @@ twtsavy (root)
 │   ├── services  **Communication with the server folder - API logic
 │   └── utilities **General Types, Data Transfer Objects/Interfaces and utility functions
 │
+├── logos  **Tech Stack logos...
+│
 ├── model_api **Independent REST API to serve the AI (LSTM) model - Sentiment Analysis
 │   ├── lstm_model  **Model code, weights and vectorizer vocabulary
 │   ├── model_api **General DJANGO settings and exposed urls
@@ -41,7 +44,7 @@ twtsavy (root)
     ├── src  
     │   ├── analyze **Analyze endpoints, responsible for handling sentiment analysis
     │   │   ├── services  **Twitter API and model_api business logic
-    │   │   └── utilities **Interfaces and utility functions
+    │   │   └── utilities **Data Transfer Objects and utility functions
     │   └── users  **User endpoints, handles user creation, validation and query storage
     │       ├── services  **Backend to Database (MongoDB with Mongoose) business logic
     │       └── utilities  **Data Transfer Object for users and database Schema
@@ -50,7 +53,7 @@ twtsavy (root)
 
 ## Tech Stack
 ### FrontEnd
-<img src="./logos/icons8-react-native.svg"><img src="./logos/icons8-redux.svg"><img src="./logos/icons8-typescript.svg"> 
+<img src="./logos/icons8-react-native.svg"> <img src="./logos/icons8-redux.svg"> <img src="./logos/axios.png" width="45px" height="45px"> <img src="./logos/icons8-typescript.svg"> 
 
 1. Built using React Native 
 2. State management using Redux
@@ -58,7 +61,7 @@ twtsavy (root)
 4. Written in TypeScript
 
 ### Backend
-<img src="./logos/nestjs.png" width="45px" height="45px"><img src="./logos/icons8-mongodb.svg"><img src="./logos/mongoose.png" width="70px" height="45px"><img src="./logos/icons8-typescript.svg"> 
+<img src="./logos/nestjs.png" width="45px" height="45px"> <img src="./logos/icons8-mongodb.svg"> <img src="./logos/mongoose.png" width="70px" height="45px"> <img src="./logos/axios.png" width="45px" height="45px"> <img src="./logos/icons8-typescript.svg"> 
 
 1. Built using NestJS
 2. Connected to MongoDB using Mongoose
@@ -66,10 +69,10 @@ twtsavy (root)
 4. Written in TypeScript
 
 ### AI Model API
-<img src="./logos/django.png" width="70px" height="45px"><img src="./logos/icons8-tensorflow.svg"><img src="./logos/icons8-postgresql.svg"><img src="./logos/icons8-python.svg"> 
+<img src="./logos/django.png" width="70px" height="45px"> <img src="./logos/icons8-tensorflow.svg"> <img src="./logos/icons8-postgresql.svg"> <img src="./logos/icons8-python.svg"> 
 
 1. Built using DJANGO
 2. Minimal UI using the DJANGO REST Framework
 3. Model developed using Tensorflow/Keras
-4. Connected to a Postgres database
+4. Connected to a PostgresSQL database
 5. Written in Python
