@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import TimeSeriesChart from '../components/TimeSeriesChart';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
 import Header from '../containers/Header';
 import Button from '../components/Button';
 
-import { useAppSelector } from '../redux/hooks';
+import { useAppSelector, useAppDispatch } from '../redux/hooks';
+import { updateWordFrequency } from '../redux/wordFrequencySlice';
 
+import { generateWordClouds } from '../utilities/wordCloud';
 import { ResultsViewNavigationProp } from '../utilities/types';
-import TimeSeriesChart from '../components/TimeSeriesChart';
 
 interface Props {
   navigation: ResultsViewNavigationProp
@@ -22,6 +24,12 @@ const ResultsView: React.FC<Props> = ({ navigation }) => {
     `The overall sentiment of\n"${indicator}${queryResults.search}"'s timeline is...`
   :
     `The overall sentiment associated with "${indicator}${queryResults.search}" is...`;
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    console.log('word cloud hook')
+    dispatch(updateWordFrequency(generateWordClouds(queryResults.timeSeries)));
+  }, [queryResults.timeSeries]);
 
   return (
     <Background>

@@ -1,4 +1,5 @@
 import { DataPoint } from './query-dto';
+import { WordFrequencyDTO } from './word.frequency-dto';
 
 interface LooseObj {
   [key: string]: any,
@@ -24,7 +25,7 @@ const enStopWordsNLTK = [
   'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now'
 ];
 
-export function generateWordClouds (timeSeries: DataPoint[]) {
+export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
   const cache: LooseObj = {
     positive: {},
     negative: {}
@@ -55,7 +56,7 @@ export function generateWordClouds (timeSeries: DataPoint[]) {
       .sort((a,b) => b[1] - a[1]);
 
   return {
-    positive: positives.slice(16),
-    negative: negatives.slice(16),
-  }
+    positive: positives,
+    negative: negatives,
+  };
 };
