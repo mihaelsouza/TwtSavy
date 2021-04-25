@@ -53,6 +53,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
         // navigate to an Error component...
       } else {
         dispatch(updateQuery(values));
+        navigation.navigate('ResultsView');
       }
     } catch (err) {
       Alert.alert('Error.', `No twitter handler found for ${user.username}. Check your personal settings.`)
