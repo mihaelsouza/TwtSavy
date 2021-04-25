@@ -1,5 +1,5 @@
-import { Controller, Get, Param, ValidationPipe, ParseIntPipe, UsePipes } from '@nestjs/common';
-import { ClientPayloadDTO } from './utilities/client.payload.interface';
+import { Controller, Get, Param, ValidationPipe, UsePipes } from '@nestjs/common';
+import { ClientPayloadDTO } from './utilities/client.payload-dto';
 import { TwitterApiService } from './services/twitter-api.service';
 import { UsersService } from 'src/users/services/users.service';
 import { AnalyzeService } from './services/analyze.service';
@@ -28,24 +28,21 @@ export class AnalyzeController {
   @Get('hashtag/:query/:id')
   @UsePipes(ValidationPipe)
     async getHashtag(
-      @Param('query') query: string,
-      @Param('id', ParseIntPipe) userId: number
+      @Param('query') query: string, @Param('id') userId: number
     ): Promise<ClientPayloadDTO> {
       return await this.processingPipeline(userId, query, 'hashtag');
     }
 
   @Get('timeline/:username/:id')
     async getTimeline(
-      @Param('username') username: string,
-      @Param('id', ParseIntPipe) userId: number
+      @Param('username') username: string, @Param('id') userId: number
     ): Promise<ClientPayloadDTO> {
       return await this.processingPipeline(userId, username, 'timeline');
     }
 
   @Get('mentions/:username/:id')
     async getMentions(
-      @Param('username') username: string,
-      @Param('id', ParseIntPipe) userId: number
+      @Param('username') username: string, @Param('id') userId: number
     ): Promise<ClientPayloadDTO> {
       return await this.processingPipeline(userId, username, 'mentions');
     }
