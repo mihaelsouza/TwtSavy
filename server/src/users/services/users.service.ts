@@ -1,9 +1,15 @@
-import { ClientPayloadDTO, ClientPayloadDummy } from '../../analyze/utilities/client.payload.interface';
+import { ClientPayloadDTO, ClientPayloadDummy } from '../../analyze/utilities/client.payload-dto';
 import { User, UserDocument } from '../utilities/user.schema';
-import { UserDTO } from '../utilities/create-user.dto';
+import { UserDTO } from '../utilities/user-dto';
 import { hash, compare } from 'bcrypt';
 
-import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+  InternalServerErrorException,
+  BadRequestException
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -18,18 +24,19 @@ export class UsersService {
     try {
       return await this.userModel.findOne({ email: property });
     } catch (err) {
-      throw new NotFoundException('User not found.');
+      console.error(err)
+      throw new InternalServerErrorException('Internal Server Error when fetching user from database.');
     }
   }
 
   async createUser(userData: UserDTO): Promise<UserDTO> {
     try {
       const user: User = await this.findUser(userData.email);
-      if (user) throw new Error();
+      if (user) throw new ConflictException('This email address is already in use.');
       else {
         userData.password = await hash(userData.password, 10);
-        const newUser: UserDocument = new this.userModel(userData);
-        await newUser.save();
+        let newUser: UserDocument = new this.userModel(userData);
+        newUser = await newUser.save();
 
         return {
           _id: newUser._id,
@@ -40,18 +47,20 @@ export class UsersService {
         }
       }
     } catch (err) {
-      throw new ConflictException('This email address is already in use.');
+      console.error(err)
+      if (err.response.status === 404) throw new NotFoundException('User not found.'); // from findUser
+      else if (err.response.status === 409) throw new ConflictException('This email address is already in use.');
+      else throw new InternalServerErrorException('Internal Server Error when creating a new user.');
     }
   }
 
   async validateUser(email: string, password: string): Promise<UserDTO> {
-    const user: User = await this.findUser(email);
+    const user: UserDTO = await this.findUser(email);
 
     if (user) {
       const match = await compare(password, user.password);
-      if (match) {
-        delete user.password;
 
+      if (match) {
         return {
           _id: user._id,
           name: user.name,
@@ -60,7 +69,7 @@ export class UsersService {
           twitter_handle: user.twitter_handle
         };
       }
-      else throw new ConflictException('Error: invalid e-mail and/or password.');
+      else throw new BadRequestException('Error: invalid e-mail and/or password.');
     } else throw new NotFoundException('Error: e-mail not registered!');
   }
 
@@ -81,6 +90,7 @@ export class UsersService {
       const document = await this.userModel.findOne({ _id: id, 'searches.query': query});
       return document.searches.filter(item => item.query === query)[0].data;
     } catch (err) {
+      console.error(err)
       return ClientPayloadDummy;
     }
   }

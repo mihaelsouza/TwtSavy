@@ -1,7 +1,6 @@
 import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './services/users.service';
-import { UserDTO } from './utilities/create-user.dto';
-import { compare } from 'bcrypt';
+import { UserDTO } from './utilities/user-dto';
 
 @Controller('users')
 export class UsersController {
