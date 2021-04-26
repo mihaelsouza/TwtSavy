@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   text: {
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Raleway-Italic',
     fontSize: 18,
     textAlign: 'center'
   }
