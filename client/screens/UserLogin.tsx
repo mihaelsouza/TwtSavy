@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, SafeAreaView, Alert } from 'react-native';
 
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
-import { toggleLoading } from '../redux/isLoadingSlice';
+import { setLoading } from '../redux/isLoadingSlice';
 import { updateUser } from '../redux/usersSlice';
 
 import Button from '../components/Button';
@@ -30,7 +30,7 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
     const validPassword = validation.validatePassword(form.password);
 
     if (validEmail === true && validPassword === true) {
-      dispatch(toggleLoading()); // Show loading indicator
+      dispatch(setLoading({loading: true, text: '', context: 'login'})); // Show loading indicator
       setTimeout(async () => {
         const checkDB = await checkUser(form.email, form.password);
         if (instanceOfApiError(checkDB)) Alert.alert('Invalid credentials', checkDB.error);
@@ -44,14 +44,13 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
           }));
           navigation.navigate('DashboardView');
         }
-        dispatch(toggleLoading()); // Hide loading indicator
+        dispatch(setLoading({loading: false})); // Hide loading indicator
       }, 500); // UX implementation for the loading indicator
     } else Alert.alert('Invalid credentials', 'Error: invalid e-mail and/or password.');
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <MySpinner text='Logging in...'/>
       <Text style={styles.headerText}>Login</Text>
       <Text style={styles.text}>EMAIL</Text>
       <TextInput

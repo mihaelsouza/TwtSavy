@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, SafeAreaView, FlatList, View, Alert } from
 
 import { useAppDispatch } from '../redux/hooks';
 import { updateUser } from '../redux/usersSlice';
-import { toggleLoading } from '../redux/isLoadingSlice';
+import { setLoading } from '../redux/isLoadingSlice';
 
 import Button from '../components/Button';
 import MySpinner from '../components/MySpinner';
@@ -65,7 +65,7 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
         setForm({...form, password: '', repeatPassword: ''});
         Alert.alert('Incorrect password', 'PASSWORD and REPEAT PASSWORD do NOT match!');
       } else {
-        dispatch(toggleLoading()); // Show loading indicator
+        dispatch(setLoading({loading: true, text: '', context: 'login'})); // Show loading indicator
         setTimeout(async () => {
           const newUser = await createUser(form);
           if (instanceOfApiError(newUser)) Alert.alert('E-mail conflict', newUser.error);
@@ -79,7 +79,7 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
             }));
             navigation.navigate('DashboardView');
           }
-          dispatch(toggleLoading()); // Hide loading indicator
+          dispatch(setLoading({loading: false})); // Hide loading indicator
         }, 500); // UX implementation for the loading indicator
       }
     }
@@ -87,7 +87,6 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <MySpinner text='Logging in...'/>
       <FlatList
         data={data}
         renderItem={({ item }) => {

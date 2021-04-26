@@ -3,6 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
 
+import MySpinner from '../components/MySpinner';
+import { setLoading } from '../redux/isLoadingSlice';
 import { updateSearch } from '../redux/queryResultSlice';
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
 
@@ -17,7 +19,7 @@ const Header: React.FC<Props> = ({ style }) => {
 
   const logoClickHandle = () => {
     dispatch(updateSearch(''));
-    navigation.navigate('DashboardView');
+    navigation.navigate('DashboardView')
   };
 
   return (

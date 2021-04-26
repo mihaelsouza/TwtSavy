@@ -3,21 +3,25 @@ import { StyleSheet } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useAppSelector } from '../redux/hooks';
 
-interface Props {
-  text: string
-};
+import LottieView from 'lottie-react-native';
 
-const MySpinner: React.FC<Props> = ({ text }) => {
+const MySpinner: React.FC = () => {
   const loading = useAppSelector(state => state.isLoading);
 
   return (
     <Spinner
-      visible={loading}
+      visible={loading.loading}
       color='steelblue'
-      textContent={text}
+      textContent={loading.text}
       textStyle={styles.spinnerText}
       cancelable={true}
       overlayColor='rgba(0,0,0,.75)'
+      customIndicator={
+        loading.context === 'login' ?
+          <LottieView source={require('../assets/login-lottie.json')} autoPlay loop/>
+        :
+          <LottieView source={require('../assets/cube-shifter-lottie.json')} autoPlay loop/>
+      }
     />
   )
 }

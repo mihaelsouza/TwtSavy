@@ -1,14 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { LoadingState, loadingInitialState } from '../utilities/loading.state-dto';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
 export const isLoadingSlice = createSlice({
   name: 'isLoading',
-  initialState: false,
+  initialState: loadingInitialState,
   reducers: {
-    toggleLoading: state => !state,
+    setLoading: (state, action: PayloadAction<LoadingState>) => {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
   }
 });
 
-export const { toggleLoading } = isLoadingSlice.actions;
+export const { setLoading } = isLoadingSlice.actions;
 export const selectIsLoading = (state: RootState) => state.isLoading;
 export default isLoadingSlice.reducer;

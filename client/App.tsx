@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { store } from './redux/store';
 import { StackParamList } from './utilities/types';
+
+import MySpinner from './components/MySpinner';
 import UserLogin from './screens/UserLogin';
 import UserRegistration from './screens/UserRegistration';
 import LandingView from './screens/LandingView';
@@ -31,6 +33,7 @@ const StackScreen = () => {
 const App = () => {
   return (
     <Provider store={store}>
+      <MySpinner/>
       <NavigationContainer>
         <RootStack.Navigator mode='modal'>
           <RootStack.Screen name='StackScreen' component={StackScreen} options={{ headerShown: false }}/>
