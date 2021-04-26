@@ -4,17 +4,12 @@ import { StyleSheet, View, Text, Dimensions } from 'react-native';
 
 import { useAppSelector } from '../redux/hooks';
 import { getScoresToPlot } from '../utilities/getScoresToPlot';
+import { getQueryColor } from '../utilities/getQueryRepresentativeColor';
 
 const TimeSeriesChart: React.FC = () => {
   const queryResults = useAppSelector(state => state.queryResult);
-  const data = getScoresToPlot(queryResults.timeSeries, 10)
-  const color = queryResults.overallSentiment === 'positive' ?
-    'green'
-  :
-    queryResults.overallSentiment === 'negative' ?
-      'red'
-    :
-      'grey'
+  const data = getScoresToPlot(queryResults.timeSeries, 10);
+  const color = getQueryColor(queryResults.overallSentiment);
 
   return (
     <View>

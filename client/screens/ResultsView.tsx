@@ -13,6 +13,7 @@ import { updateWordFrequency } from '../redux/wordFrequencySlice';
 import { generateWordClouds } from '../utilities/wordCloud';
 import { ResultsViewNavigationProp } from '../utilities/types';
 import { WordFrequencyDTO } from '../utilities/word.frequency-dto';
+import { getQueryColor } from '../utilities/getQueryRepresentativeColor';
 
 interface Props {
   navigation: ResultsViewNavigationProp
@@ -40,19 +41,7 @@ const ResultsView: React.FC<Props> = ({ navigation }) => {
       <Header />
       <ContentBox>
         <Text style={styles.text}>{intro}</Text>
-        <Text style={[
-          styles.textHeader,
-          {color:
-            queryResults.overallSentiment === 'positive' ?
-              'green'
-            :
-            queryResults.overallSentiment === 'negative' ?
-              'red'
-            :
-            'grey'
-          }
-        ]}
-        >
+        <Text style={[styles.textHeader, {color: getQueryColor(queryResults.overallSentiment)}]}>
           {queryResults.overallSentiment.toUpperCase()}
         </Text>
         <Text style={styles.text}>{`...with an average score of ${queryResults.averageScore}%`}</Text>
