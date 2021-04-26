@@ -38,8 +38,8 @@ const OutcomesView: React.FC<Props> = ({ navigation, route }) => {
           <Text style={styles.text}>{`in ${outcome} tweets, and it represented ${outcomesArray.frequency}% of the total tweets.`}</Text>
         </ContentBox>
         <ContentBox>
-          <Text style={styles.tweetsHeader}>{`${outcome[0].toUpperCase()}${outcome.slice(1,)} Tweets Examples:`}</Text>
-          <Text style={[styles.text, {marginBottom: -20}]}>(scroll right/left to view more!)</Text>
+          <Text style={styles.tweetsHeader}>{`${outcome[0].toUpperCase()}${outcome.slice(1,)} Tweets Examples`}</Text>
+          <Text style={styles.scrollText}>(scroll right/left to view more!)</Text>
           <FlatList
             data={tweetsArray}
             renderItem={({item}) => <Tweet text={item.tweet}/>}
@@ -68,6 +68,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Regular',
     fontSize: 18,
     textAlign: 'center',
+  },
+  scrollText: {
+    fontSize: 12,
+    fontWeight: '700',
+    fontFamily: 'Raleway-Regular',
   },
   highlight: {
     fontFamily: 'FrederickatheGreat-Regular',

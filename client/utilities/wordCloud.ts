@@ -38,6 +38,14 @@ function generateRandomIndex (range: number): Function {
   return getIndex;
 }
 
+function cleanWord (word: string): string {
+  if (enStopWordsNLTK.includes(word)) return ''; // Stopwords
+  if (word.match(/^[#@&]/)) return ''; // Hashtags, mentions and HTML special characters
+  if (word.match(/^https?/)) return ''; // Links
+
+  return word.replace(/[^\w]/, '');
+}
+
 export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
   const cache: LooseObj = {
     positive: {},
@@ -62,7 +70,8 @@ export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
         negativeArray.push(data.text);
 
       words.forEach((word) => {
-        if (!enStopWordsNLTK.includes(word)) cache[cacheCase][word] ? cache[cacheCase][word]++ : cache[cacheCase][word] = 1;
+        word = cleanWord(word.toLowerCase()); // To simplify comparisons
+        if (word != '') cache[cacheCase][word] ? cache[cacheCase][word]++ : cache[cacheCase][word] = 1;
       });
     }
   });
