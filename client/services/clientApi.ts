@@ -2,9 +2,10 @@ import { ApiError } from '../utilities/api.error-interface';
 import { QueryDTO } from '../utilities/query-dto';
 import { UserDTO } from '../utilities/user-dto';
 import { Form } from '../utilities/types';
+import { NEST_HOST, NEST_PORT } from '@env';
 import axios, { AxiosResponse } from 'axios';
 
-const serverAdress: string = 'http://localhost:3005';
+const serverAdress: string = `${NEST_HOST}:${NEST_PORT}`;
 
 export async function checkUser (email: string, password: string): Promise<UserDTO | ApiError> {
   try{
