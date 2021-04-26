@@ -1,4 +1,4 @@
-import { WordFrequencyDTO, wordFrequencyInitialState } from '../utilities/word.frequency-dto';
+import { WordFrequencyDTO, wordFrequencyInitialState } from '../interfaces/word.frequency-dto';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from './store';
 

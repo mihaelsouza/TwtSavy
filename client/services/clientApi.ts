@@ -1,7 +1,7 @@
-import { ApiError } from '../utilities/api.error-interface';
-import { QueryDTO } from '../utilities/query-dto';
-import { UserDTO } from '../utilities/user-dto';
-import { Form } from '../utilities/types';
+import { ApiError } from '../interfaces/api.error-interface';
+import { QueryDTO } from '../interfaces/query-dto';
+import { UserDTO } from '../interfaces/user-dto';
+import { Form } from '../types/types';
 import { NEST_HOST, NEST_PORT } from '@env';
 import axios, { AxiosResponse } from 'axios';
 

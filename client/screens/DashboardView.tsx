@@ -12,9 +12,9 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import { updateEndpoint, updateSearch, updateQuery } from '../redux/queryResultSlice';
 
 import { validateUserQuery } from '../utilities/validation';
-import { DashboardViewNavigationProp } from '../utilities/types';
+import { DashboardViewNavigationProp } from '../types/types';
 import { twitterQuery } from '../services/clientApi';
-import { instanceOfApiError } from '../utilities/api.error-interface';
+import { instanceOfApiError } from '../interfaces/api.error-interface';
 
 interface Props {
   navigation: DashboardViewNavigationProp,

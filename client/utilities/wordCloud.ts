@@ -1,5 +1,5 @@
-import { DataPoint } from './query-dto';
-import { WordFrequencyDTO } from './word.frequency-dto';
+import { DataPoint } from '../interfaces/query-dto';
+import { WordFrequencyDTO } from '../interfaces/word.frequency-dto';
 
 interface LooseObj {
   positive: {

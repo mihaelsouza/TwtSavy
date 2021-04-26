@@ -1,4 +1,4 @@
-import { UserDTO, userInitialState } from '../utilities/user-dto';
+import { UserDTO, userInitialState } from '../interfaces/user-dto';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from './store';
 

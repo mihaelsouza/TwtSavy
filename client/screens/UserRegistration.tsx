@@ -8,8 +8,8 @@ import { setLoading } from '../redux/isLoadingSlice';
 import Button from '../components/Button';
 import * as validation from '../utilities/validation';
 import { createUser } from '../services/clientApi';
-import { instanceOfApiError } from '../utilities/api.error-interface';
-import { UserRegistrationNavigationProp, Form } from '../utilities/types';
+import { instanceOfApiError } from '../interfaces/api.error-interface';
+import { UserRegistrationNavigationProp, Form } from '../types/types';
 
 interface Props {
   navigation: UserRegistrationNavigationProp;

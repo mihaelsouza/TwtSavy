@@ -1,4 +1,4 @@
-import { DataPoint } from './query-dto';
+import { DataPoint } from '../interfaces/query-dto';
 import moment from 'moment';
 
 interface PlotData {

@@ -1,4 +1,4 @@
-import { LoadingStateDTO, loadingInitialState } from '../utilities/loading.state-dto';
+import { LoadingStateDTO, loadingInitialState } from '../interfaces/loading.state-dto';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 

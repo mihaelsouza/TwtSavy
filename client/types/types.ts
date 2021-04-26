@@ -1,6 +1,6 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { WordFrequencyDTO }  from './word.frequency-dto';
+import { WordFrequencyDTO }  from '../interfaces/word.frequency-dto';
 
 // General Screens type definition
 export type StackParamList = {

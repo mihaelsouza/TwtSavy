@@ -1,4 +1,4 @@
-import { DataPoint } from './query-dto';
+import { DataPoint } from '../interfaces/query-dto';
 
 function generateRandomIndex (range: number): Function {
   const memory: number[] = [];

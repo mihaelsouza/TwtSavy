@@ -8,7 +8,7 @@ import Button from '../components/Button';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
 
-import { OutcomesViewNavigationProp, OutcomesViewRouteProp } from '../utilities/types';
+import { OutcomesViewNavigationProp, OutcomesViewRouteProp } from '../types/types';
 import { getArrayOfTweets } from '../utilities/getRandomTweets';
 import { useAppSelector } from '../redux/hooks';
 

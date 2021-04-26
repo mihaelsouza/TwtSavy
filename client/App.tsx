@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { store } from './redux/store';
-import { StackParamList } from './utilities/types';
+import { StackParamList } from './types/types';
 
 import MySpinner from './components/MySpinner';
 import UserLogin from './screens/UserLogin';

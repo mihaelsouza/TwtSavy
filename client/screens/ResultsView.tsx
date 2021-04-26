@@ -11,8 +11,8 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import { updateWordFrequency } from '../redux/wordFrequencySlice';
 
 import { generateWordClouds } from '../utilities/wordCloud';
-import { ResultsViewNavigationProp } from '../utilities/types';
-import { WordFrequencyDTO } from '../utilities/word.frequency-dto';
+import { ResultsViewNavigationProp } from '../types/types';
+import { WordFrequencyDTO } from '../interfaces/word.frequency-dto';
 import { getQueryColor } from '../utilities/getQueryRepresentativeColor';
 
 interface Props {

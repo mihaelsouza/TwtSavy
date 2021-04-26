@@ -1,4 +1,4 @@
-import { QueryDTO, queryInitialState } from '../utilities/query-dto';
+import { QueryDTO, queryInitialState } from '../interfaces/query-dto';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from './store';
 
