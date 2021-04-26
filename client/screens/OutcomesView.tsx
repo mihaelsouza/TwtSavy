@@ -1,15 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
+import Tweet from '../components/Tweet';
 import Header from '../containers/Header';
 import Button from '../components/Button';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
 
 import { OutcomesViewNavigationProp, OutcomesViewRouteProp } from '../utilities/types';
+import { getArrayOfTweets } from '../utilities/wordCloud';
 import { useAppSelector } from '../redux/hooks';
-import { FlatList } from 'react-native-gesture-handler';
 
 interface Props {
   route: OutcomesViewRouteProp,
@@ -20,6 +21,8 @@ const OutcomesView: React.FC<Props> = ({ navigation, route }) => {
   const { outcome, colors } = route.params;
   const outcomesArray = useAppSelector(state => state.wordFrequency[outcome]);
   const scrollViewHeight = useAppSelector(state => state.styleProperties.scrollViewHeight);
+  const tweetsArray = getArrayOfTweets(useAppSelector(state => state.queryResult.timeSeries), outcome);
+  console.log(tweetsArray)
 
   return (
     <Background>
@@ -36,9 +39,24 @@ const OutcomesView: React.FC<Props> = ({ navigation, route }) => {
           <Text style={styles.text}>{`in ${outcome} tweets, and it represented ${outcomesArray.frequency}% of the total tweets.`}</Text>
         </ContentBox>
         <ContentBox>
-          {/* <FlatList></FlatList> */}
+          <Text style={styles.tweetsHeader}>{`${outcome[0].toUpperCase()}${outcome.slice(1,)} Tweets Examples:`}</Text>
+          <Text style={[styles.text, {marginBottom: -25}]}>(scroll right/left to view more!)</Text>
+          <FlatList
+            data={tweetsArray}
+            renderItem={({item}) => <Tweet text={item.tweet}/>}
+            horizontal={true}
+            pagingEnabled={true}
+            snapToInterval={300}
+            snapToAlignment={'start'}
+            decelerationRate={'fast'}
+            showsHorizontalScrollIndicator={true}
+          />
         </ContentBox>
-        <Button buttonLabel="Back to Resutls" onPress={() => navigation.navigate('ResultsView')}></Button>
+        <Button
+          buttonLabel="Back to Resutls"
+          style={{marginTop: 10}}
+          onPress={() => navigation.navigate('ResultsView')}
+        />
       </LinearGradient>
     </Background>
   )
@@ -57,6 +75,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center',
     marginVertical: 5,
+  },
+  tweetsHeader: {
+    fontFamily: 'FrederickatheGreat-Regular',
+    fontSize: 20,
   },
   gradient: {
     alignItems: 'center',

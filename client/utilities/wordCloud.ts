@@ -12,7 +12,7 @@ interface LooseObj {
 };
 
 // List of common english words to avoid, from the NLTK python library
-const enStopWordsNLTK = [
+const enStopWordsNLTK: string[] = [
   'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself',
   'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself',
   'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that',
@@ -34,12 +34,19 @@ export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
   let words: string[];
   let cacheCase: string;
   let positiveCount: number = 0;
+  let positiveArray: string[] = [];
   let negativeCount: number = 0;
+  let negativeArray: string[] = [];
   timeSeries.forEach((data) => {
     if (data.score >= .7 || data.score <= .3) {
       cacheCase = data.score >= .7 ? 'positive' : 'negative';
-      data.score >= .7 ? positiveCount++ : negativeCount++;
       words = data.text.split(' ');
+      data.score >= .7 ?
+        positiveCount++ &&
+        positiveArray.push(data.text)
+      :
+        negativeCount++ &&
+        negativeArray.push(data.text);
 
       words.forEach((word) => {
         if (!enStopWordsNLTK.includes(word)) cache[cacheCase][word] ? cache[cacheCase][word]++ : cache[cacheCase][word] = 1;
@@ -70,4 +77,25 @@ export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
       frequency: Math.round(negativeCount * 100 / timeSeries.length),
     },
   };
+};
+
+export function getArrayOfTweets (
+  timeSeries: DataPoint[], caseToAnalyze: string
+): {key: number, tweet: string}[] {
+  const validTweets: string[] = [];
+  timeSeries.forEach((item) => {
+    caseToAnalyze === 'positive' ?
+      item.score >= .7 ? validTweets.push(item.text) : {}
+    :
+      item.score <= .3 ? validTweets.push(item.text) : {}
+  });
+
+  const flatListDataArray: {key: number, tweet: string}[] = [];
+  let i: number = 0;
+  while (i < 10 && i < validTweets.length) {
+    flatListDataArray.push({key: i, tweet: validTweets[i]});
+    i++;
+  }
+
+  return flatListDataArray;
 };
