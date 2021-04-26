@@ -1,5 +1,6 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
+import { WordFrequencyDTO }  from './word.frequency-dto';
 
 // General Screens type definition
 export type StackParamList = {
@@ -9,7 +10,7 @@ export type StackParamList = {
   UserRegistration: undefined;
   DashboardView: undefined;
   ResultsView: undefined;
-  OutcomesView: {outcome: string};
+  OutcomesView: {outcome: keyof WordFrequencyDTO};
 };
 
 // Each Screen individual navigation type definitions
