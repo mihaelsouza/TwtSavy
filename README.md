@@ -26,11 +26,13 @@ twtsavy (root)
 │   ├── assets  **Custom fonts and images
 │   ├── components  **Contains business logic or makes use of state changes
 │   ├── containers  **Generalized styled containers for re-use
+│   ├── interfaces  **Data transfer objects and interfaces, with initial states
 │   ├── ios  
 │   ├── redux **Implementation of Redux store and slices (actions & reducers)
 │   ├── screens **App views, reached through navigation
 │   ├── services  **Communication with the server folder - API logic
-│   └── utilities **General Types, Data Transfer Objects/Interfaces and utility functions
+│   ├── types  **.env variable types and general types.ts file - mostly navigation
+│   └── utilities **Validation and helper functions
 │
 ├── logos  **Tech Stack logos...
 │
