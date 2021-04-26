@@ -18,7 +18,7 @@ const MySpinner: React.FC = () => {
       overlayColor='rgba(0,0,0,.75)'
       customIndicator={
         loading.context === 'login' ?
-          <LottieView source={require('../assets/login-lottie.json')} autoPlay loop/>
+          <LottieView style={{width: 250}} source={require('../assets/login-lottie.json')} autoPlay loop/>
         :
           <LottieView source={require('../assets/cube-shifter-lottie.json')} autoPlay loop/>
       }
