@@ -117,7 +117,10 @@ export function getArrayOfTweets (
   let i: number = 0, index: number;
   while (i < 10 && i < validTweets.length) {
     validTweets.length < 10 ? index = getIndex() : index = i;
-    flatListDataArray.push({key: i, tweet: validTweets[index]});
+    flatListDataArray.push({
+      key: i,
+      tweet: validTweets[index].replace(/\bhttps?:\/\/.*/,'')
+    });
     i++;
   }
 

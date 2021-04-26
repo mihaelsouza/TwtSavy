@@ -8,7 +8,7 @@ interface Props {
 const Tweet: React.FC<Props> = ({ text }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>" {text} "</Text>
+      <Text style={styles.text}>{text}</Text>
     </View>
   )
 };
