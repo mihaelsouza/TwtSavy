@@ -64,7 +64,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
   return (
     <Background>
       <MySpinner text={'Analyzing Twitter Data.\nThis may take a moment...'} />
-      <Header/>
+      <Header style={{marginBottom: 50}}/>
       <ContentBox>
         <Text style={styles.textHeader}>Hi {`${user.username},`.toUpperCase()}</Text>
         <Text style={styles.text}>Let's draw some insights!</Text>

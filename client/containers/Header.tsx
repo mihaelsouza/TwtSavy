@@ -1,17 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
 
 import { useAppSelector } from '../redux/hooks';
 
 interface Props {
+  style?: ViewStyle,
 };
 
-const Header: React.FC<Props> = () => {
+const Header: React.FC<Props> = ({ style }) => {
   const username = useAppSelector(state => state.users.username);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <View style={styles.logoContainer}>
         <Image source={require('../assets/logo.png')} style={styles.logo}/>
         <Text style={styles.headerTxt}>TwtSavy</Text>
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     opacity: .8,
-    marginBottom: 50,
+    marginBottom: 30,
   },
   logoContainer: {
     flexDirection: 'row',
