@@ -5,10 +5,7 @@ import { StyleSheet, View, Text, Dimensions } from 'react-native';
 import { useAppSelector } from '../redux/hooks';
 import { getScoresToPlot } from '../utilities/getScoresToPlot';
 
-interface Props {
-};
-
-const TimeSeriesChart: React.FC<Props> = () => {
+const TimeSeriesChart: React.FC = () => {
   const queryResults = useAppSelector(state => state.queryResult);
   const data = getScoresToPlot(queryResults.timeSeries, 10)
   const color = queryResults.overallSentiment === 'positive' ?

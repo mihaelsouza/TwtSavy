@@ -6,7 +6,6 @@ import { setLoading } from '../redux/isLoadingSlice';
 import { updateUser } from '../redux/usersSlice';
 
 import Button from '../components/Button';
-import MySpinner from '../components/MySpinner';
 import { UserLoginNavigationProp } from '../utilities/types';
 import { checkUser, instanceOfApiError } from '../services/clientApi';
 import * as validation from '../utilities/validation';

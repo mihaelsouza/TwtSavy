@@ -6,13 +6,13 @@ export const queryResultSlice = createSlice({
   name: 'queryResult',
   initialState: queryInitialState,
   reducers: {
-    updateEndpoint: (state, action: PayloadAction<string>) => {
+    updateEndpoint: (state: QueryDTO, action: PayloadAction<string>) => {
       state.endpoint = action.payload;
     },
-    updateSearch: (state, action: PayloadAction<string>) => {
+    updateSearch: (state: QueryDTO, action: PayloadAction<string>) => {
       state.search = action.payload;
     },
-    updateQuery: (state, action: PayloadAction<QueryDTO>) => {
+    updateQuery: (state: QueryDTO, action: PayloadAction<QueryDTO>) => {
       state = {...action.payload};
       return state;
     }

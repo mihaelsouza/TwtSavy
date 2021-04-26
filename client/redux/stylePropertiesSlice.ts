@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
-const initialState = {
+const initialState: {scrollViewHeight: number} = {
   scrollViewHeight: 600,
 };
 
@@ -9,7 +9,7 @@ export const stylePropertiesSlice = createSlice({
   name: 'styleProperties',
   initialState,
   reducers: {
-    updateScrollViewHeight: (state, action: PayloadAction<number>) => {
+    updateScrollViewHeight: (state: {scrollViewHeight: number}, action: PayloadAction<number>) => {
       state.scrollViewHeight = action.payload;
     }
   }

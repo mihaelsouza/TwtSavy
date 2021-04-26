@@ -6,7 +6,6 @@ import { updateUser } from '../redux/usersSlice';
 import { setLoading } from '../redux/isLoadingSlice';
 
 import Button from '../components/Button';
-import MySpinner from '../components/MySpinner';
 import * as validation from '../utilities/validation';
 import { createUser, instanceOfApiError } from '../services/clientApi';
 import { UserRegistrationNavigationProp, Form } from '../utilities/types';
@@ -44,7 +43,7 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
   ];
 
   const valueHandler: Function = (value: string, prop: string): void => {
-    const newForm: Form = {...form};
+    const newForm = {...form};
     newForm[prop] = prop === 'email' ? value.toLowerCase().trim() : value;
     setForm(newForm);
   };

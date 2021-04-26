@@ -1,4 +1,4 @@
-import { LoadingState, loadingInitialState } from '../utilities/loading.state-dto';
+import { LoadingStateDTO, loadingInitialState } from '../utilities/loading.state-dto';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
@@ -6,7 +6,7 @@ export const isLoadingSlice = createSlice({
   name: 'isLoading',
   initialState: loadingInitialState,
   reducers: {
-    setLoading: (state, action: PayloadAction<LoadingState>) => {
+    setLoading: (state: LoadingStateDTO, action: PayloadAction<LoadingStateDTO>) => {
       return {
         ...state,
         ...action.payload

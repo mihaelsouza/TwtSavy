@@ -6,7 +6,7 @@ export const wordFrequencySlice = createSlice({
   name: 'wordFrequency',
   initialState: wordFrequencyInitialState,
   reducers: {
-    updateWordFrequency: (state, action: PayloadAction<WordFrequencyDTO>) => {
+    updateWordFrequency: (state: WordFrequencyDTO, action: PayloadAction<WordFrequencyDTO>) => {
       state = {...action.payload};
       return state;
     },

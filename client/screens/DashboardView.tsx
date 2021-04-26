@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 
 import Button from '../components/Button';
 import Header from '../containers/Header';
-import MySpinner from '../components/MySpinner';
 import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
 
@@ -28,7 +27,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
   const handleCrunchNumbers: Function = async (): Promise<void> => {
     dispatch(setLoading({loading: true, text: 'Analyzing Twitter Data.\nThis may take a moment...', context: ''}));
     try {
-      const query: string = validateUserQuery(`@${queryResult.search}`);
+      const query = validateUserQuery(`@${queryResult.search}`);
       const values = await twitterQuery(user._id, query, queryResult.endpoint);
       if (instanceOfApiError(values)) {
         console.error(values.error);
@@ -46,7 +45,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
   const handleAnalyzeMe: Function = async (): Promise<void> => {
     dispatch(setLoading({loading: true, text: 'Analyzing Twitter Data.\nThis may take a moment...', context: ''}));
     try {
-      const userTwitter: string = validateUserQuery(`@${user.twitter_handle}`);
+      const userTwitter = validateUserQuery(`@${user.twitter_handle}`);
       const values = await twitterQuery(user._id, userTwitter, 'timeline');
       if (instanceOfApiError(values)) {
         console.error(values.error);

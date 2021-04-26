@@ -11,7 +11,7 @@ export interface WordFrequencyDTO {
   },
 }
 
-export const wordFrequencyInitialState = {
+export const wordFrequencyInitialState: WordFrequencyDTO = {
   positive: {
     words: ['',],
     values: [0,],
