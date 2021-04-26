@@ -1,21 +1,30 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
 
-import { useAppSelector } from '../redux/hooks';
+import { updateSearch } from '../redux/queryResultSlice';
+import { useAppSelector, useAppDispatch } from '../redux/hooks';
 
 interface Props {
   style?: ViewStyle,
 };
 
 const Header: React.FC<Props> = ({ style }) => {
-  const username = useAppSelector(state => state.users.username);
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
+  const username = useAppSelector((state) => state.users.username);
+
+  const logoClickHandle = () => {
+    dispatch(updateSearch(''));
+    navigation.navigate('DashboardView');
+  };
 
   return (
     <View style={[styles.container, style]}>
       <View style={styles.logoContainer}>
         <Image source={require('../assets/logo.png')} style={styles.logo}/>
-        <Text style={styles.headerTxt}>TwtSavy</Text>
+        <Text style={styles.headerTxt} onPress={() => logoClickHandle()}>TwtSavy</Text>
       </View>
       <View style={{...styles.logoContainer, justifyContent: 'flex-end'}}>
         <Text style={styles.headerTxt}>{username.toUpperCase()}</Text>
