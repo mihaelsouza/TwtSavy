@@ -12,6 +12,7 @@ import { updateWordFrequency } from '../redux/wordFrequencySlice';
 
 import { generateWordClouds } from '../utilities/wordCloud';
 import { ResultsViewNavigationProp } from '../utilities/types';
+import { WordFrequencyDTO } from '../utilities/word.frequency-dto';
 
 interface Props {
   navigation: ResultsViewNavigationProp
@@ -30,8 +31,8 @@ const ResultsView: React.FC<Props> = ({ navigation }) => {
     dispatch(updateWordFrequency(generateWordClouds(queryResults.timeSeries)));
   }, [queryResults.timeSeries]);
 
-  const handleOutcomesButton: Function = (outcome: string) => {
-    navigation.navigate('OutcomesView', {outcome});
+  const handleOutcomesButton: Function = (outcome: keyof WordFrequencyDTO, colors: string[]) => {
+    navigation.navigate('OutcomesView', {outcome, colors});
   };
 
   return (
@@ -59,11 +60,15 @@ const ResultsView: React.FC<Props> = ({ navigation }) => {
       <ContentBox style={{padding: 0}}>
         <TimeSeriesChart />
         <View style={styles.buttonArray}>
-          <Button buttonLabel='The Bad' onPress={() => handleOutcomesButton('negative')}
+          <Button
+            buttonLabel='The Bad'
+            onPress={() => handleOutcomesButton('negative', ['rgba(160,0,0,0)', 'rgba(160,0,0,.8)'])}
             style={{...styles.additionalButton, backgroundColor: '#A90B0B'}}
           />
-          <Button buttonLabel='The Good' onPress={() => handleOutcomesButton('positive')}
-          style={{...styles.additionalButton, backgroundColor: '#0D7D0D'}}
+          <Button
+            buttonLabel='The Good'
+            onPress={() => handleOutcomesButton('positive', ['rgba(0,160,0,.8)', 'rgba(0,160,0,0)'])}
+            style={{...styles.additionalButton, backgroundColor: '#0D7D0D'}}
           />
         </View>
       </ContentBox>
