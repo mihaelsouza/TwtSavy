@@ -10,7 +10,7 @@ export type StackParamList = {
   UserRegistration: undefined;
   DashboardView: undefined;
   ResultsView: undefined;
-  OutcomesView: {outcome: keyof WordFrequencyDTO};
+  OutcomesView: {outcome: keyof WordFrequencyDTO, colors: string[]};
 };
 
 // Each Screen individual navigation type definitions
