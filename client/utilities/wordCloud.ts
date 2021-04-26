@@ -2,7 +2,6 @@ import { DataPoint } from './query-dto';
 import { WordFrequencyDTO } from './word.frequency-dto';
 
 interface LooseObj {
-  [key: string]: any,
   positive: {
     [key: string]: number
   },
@@ -40,7 +39,7 @@ export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
   };
 
   let words: string[];
-  let cacheCase: string;
+  let cacheCase: 'positive' | 'negative';
   let positiveCount: number = 0;
   let positiveArray: string[] = [];
   let negativeCount: number = 0;
