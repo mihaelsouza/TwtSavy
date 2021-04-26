@@ -9,7 +9,7 @@ import Background from '../containers/Background';
 import ContentBox from '../containers/ContentBox';
 
 import { OutcomesViewNavigationProp, OutcomesViewRouteProp } from '../utilities/types';
-import { getArrayOfTweets } from '../utilities/wordCloud';
+import { getArrayOfTweets } from '../utilities/getRandomTweets';
 import { useAppSelector } from '../redux/hooks';
 
 interface Props {

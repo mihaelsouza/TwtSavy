@@ -25,19 +25,6 @@ const enStopWordsNLTK: string[] = [
   'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now'
 ];
 
-function generateRandomIndex (range: number): Function {
-  const memory: number[] = [];
-  const getIndex = () => {
-    const value: number = Math.floor(Math.random() * range)
-    if (value in memory) {
-      memory.push(value);
-      getIndex();
-    } else return value;
-  };
-
-  return getIndex;
-}
-
 function cleanWord (word: string): string {
   if (enStopWordsNLTK.includes(word)) return ''; // Stopwords
   if (word.match(/^[#@&]/)) return ''; // Hashtags, mentions and HTML special characters
@@ -99,30 +86,4 @@ export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
       frequency: Math.round(negativeCount * 100 / timeSeries.length),
     },
   };
-};
-
-export function getArrayOfTweets (
-  timeSeries: DataPoint[], caseToAnalyze: string
-): {key: number, tweet: string}[] {
-  const validTweets: string[] = [];
-  timeSeries.forEach((item) => {
-    caseToAnalyze === 'positive' ?
-      item.score >= .7 ? validTweets.push(item.text) : {}
-    :
-      item.score <= .3 ? validTweets.push(item.text) : {}
-  });
-
-  const flatListDataArray: {key: number, tweet: string}[] = [];
-  const getIndex = generateRandomIndex(validTweets.length);
-  let i: number = 0, index: number;
-  while (i < 10 && i < validTweets.length) {
-    validTweets.length < 10 ? index = getIndex() : index = i;
-    flatListDataArray.push({
-      key: i,
-      tweet: validTweets[index].replace(/\bhttps?:\/\/.*/,'')
-    });
-    i++;
-  }
-
-  return flatListDataArray;
 };
