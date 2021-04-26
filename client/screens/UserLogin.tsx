@@ -7,8 +7,9 @@ import { updateUser } from '../redux/usersSlice';
 
 import Button from '../components/Button';
 import { UserLoginNavigationProp } from '../utilities/types';
-import { checkUser, instanceOfApiError } from '../services/clientApi';
+import { checkUser } from '../services/clientApi';
 import * as validation from '../utilities/validation';
+import { instanceOfApiError } from '../utilities/api.error-interface';
 
 interface Props {
   navigation: UserLoginNavigationProp

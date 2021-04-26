@@ -1,18 +1,10 @@
+import { ApiError } from '../utilities/api.error-interface';
 import { QueryDTO } from '../utilities/query-dto';
 import { UserDTO } from '../utilities/user-dto';
 import { Form } from '../utilities/types';
 import axios, { AxiosResponse } from 'axios';
 
 const serverAdress: string = 'http://localhost:3005';
-
-interface ApiError {
-  discriminator: 'Error',
-  error?: string
-}
-
-export function instanceOfApiError (object: any): object is ApiError {
-  return object.discriminator === 'Error';
-};
 
 export async function checkUser (email: string, password: string): Promise<UserDTO | ApiError> {
   try{

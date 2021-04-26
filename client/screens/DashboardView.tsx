@@ -13,7 +13,8 @@ import { updateEndpoint, updateSearch, updateQuery } from '../redux/queryResultS
 
 import { validateUserQuery } from '../utilities/validation';
 import { DashboardViewNavigationProp } from '../utilities/types';
-import { twitterQuery, instanceOfApiError } from '../services/clientApi';
+import { twitterQuery } from '../services/clientApi';
+import { instanceOfApiError } from '../utilities/api.error-interface';
 
 interface Props {
   navigation: DashboardViewNavigationProp,
