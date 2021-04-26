@@ -25,6 +25,19 @@ const enStopWordsNLTK: string[] = [
   'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now'
 ];
 
+function generateRandomIndex (range: number): Function {
+  const memory: number[] = [];
+  const getIndex = () => {
+    const value: number = Math.floor(Math.random() * range)
+    if (value in memory) {
+      memory.push(value);
+      getIndex();
+    } else return value;
+  };
+
+  return getIndex;
+}
+
 export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
   const cache: LooseObj = {
     positive: {},
@@ -91,9 +104,11 @@ export function getArrayOfTweets (
   });
 
   const flatListDataArray: {key: number, tweet: string}[] = [];
-  let i: number = 0;
+  const getIndex = generateRandomIndex(validTweets.length);
+  let i: number = 0, index: number;
   while (i < 10 && i < validTweets.length) {
-    flatListDataArray.push({key: i, tweet: validTweets[i]});
+    validTweets.length < 10 ? index = getIndex() : index = i;
+    flatListDataArray.push({key: i, tweet: validTweets[index]});
     i++;
   }
 

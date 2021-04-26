@@ -22,7 +22,6 @@ const OutcomesView: React.FC<Props> = ({ navigation, route }) => {
   const outcomesArray = useAppSelector(state => state.wordFrequency[outcome]);
   const scrollViewHeight = useAppSelector(state => state.styleProperties.scrollViewHeight);
   const tweetsArray = getArrayOfTweets(useAppSelector(state => state.queryResult.timeSeries), outcome);
-  console.log(tweetsArray)
 
   return (
     <Background>
@@ -40,7 +39,7 @@ const OutcomesView: React.FC<Props> = ({ navigation, route }) => {
         </ContentBox>
         <ContentBox>
           <Text style={styles.tweetsHeader}>{`${outcome[0].toUpperCase()}${outcome.slice(1,)} Tweets Examples:`}</Text>
-          <Text style={[styles.text, {marginBottom: -25}]}>(scroll right/left to view more!)</Text>
+          <Text style={[styles.text, {marginBottom: -20}]}>(scroll right/left to view more!)</Text>
           <FlatList
             data={tweetsArray}
             renderItem={({item}) => <Tweet text={item.tweet}/>}
