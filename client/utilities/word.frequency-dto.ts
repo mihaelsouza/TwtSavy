@@ -1,9 +1,25 @@
 export interface WordFrequencyDTO {
-  positive: [string, number][],
-  negative: [string, number][]
+  positive: {
+    words: string[],
+    values: number[],
+    frequency: number
+  },
+  negative: {
+    words: string[],
+    values: number[],
+    frequency: number
+  },
 }
 
 export const wordFrequencyInitialState = {
-  positive: [['', 0]],
-  negative: [['', 0]],
+  positive: {
+    words: ['',],
+    values: [0,],
+    frequency: 0
+  },
+  negative: {
+    words: ['',],
+    values: [0,],
+    frequency: 0
+  },
 };

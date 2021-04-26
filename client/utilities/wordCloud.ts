@@ -33,9 +33,12 @@ export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
 
   let words: string[];
   let cacheCase: string;
+  let positiveCount: number = 0;
+  let negativeCount: number = 0;
   timeSeries.forEach((data) => {
     if (data.score >= .7 || data.score <= .3) {
       cacheCase = data.score >= .7 ? 'positive' : 'negative';
+      data.score >= .7 ? positiveCount++ : negativeCount++;
       words = data.text.split(' ');
 
       words.forEach((word) => {
@@ -56,7 +59,15 @@ export function generateWordClouds (timeSeries: DataPoint[]): WordFrequencyDTO {
       .sort((a,b) => b[1] - a[1]);
 
   return {
-    positive: positives,
-    negative: negatives,
+    positive: {
+      words: positives.map((item) => item[0]),
+      values: positives.map((item) => item[1]),
+      frequency: Math.round(positiveCount * 100 / timeSeries.length),
+    },
+    negative: {
+      words: negatives.map((item) => item[0]),
+      values: negatives.map((item) => item[1]),
+      frequency: Math.round(negativeCount * 100 / timeSeries.length),
+    },
   };
 };
