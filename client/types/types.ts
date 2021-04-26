@@ -9,6 +9,7 @@ export type StackParamList = {
   UserLogin: undefined;
   UserRegistration: undefined;
   DashboardView: undefined;
+  NotEnoughDataView: undefined;
   ResultsView: undefined;
   OutcomesView: {outcome: keyof WordFrequencyDTO, colors: string[]};
 };
@@ -32,6 +33,11 @@ export type UserRegistrationNavigationProp = StackNavigationProp<
 export type DashboardViewNavigationProp = StackNavigationProp<
   StackParamList,
   'DashboardView'
+>;
+
+export type NotEnoughDataViewNavigationProp = StackNavigationProp<
+  StackParamList,
+  'NotEnoughDataView'
 >;
 
 export type ResultsViewNavigationProp = StackNavigationProp<

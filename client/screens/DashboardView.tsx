@@ -31,8 +31,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
       const query = validateUserQuery(`@${queryResult.search}`);
       const values = await twitterQuery(user._id, query, queryResult.endpoint);
       if (instanceOfApiError(values)) {
-        console.error(values.error);
-        // navigate to an Error component...
+        navigation.navigate('NotEnoughDataView');
       } else {
         dispatch(updateQuery(values));
         navigation.navigate('ResultsView');
@@ -49,8 +48,7 @@ const DashboardView: React.FC<Props> = ({ navigation }) => {
       const userTwitter = validateUserQuery(`@${user.twitter_handle}`);
       const values = await twitterQuery(user._id, userTwitter, 'timeline');
       if (instanceOfApiError(values)) {
-        console.error(values.error);
-        // navigate to an Error component...
+        navigation.navigate('NotEnoughDataView');
       } else {
         dispatch(updateQuery(values));
         navigation.navigate('ResultsView');

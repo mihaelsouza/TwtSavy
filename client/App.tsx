@@ -13,6 +13,7 @@ import UserLogin from './screens/UserLogin';
 import UserRegistration from './screens/UserRegistration';
 import LandingView from './screens/LandingView';
 import DashboardView from './screens/DashboardView';
+import NotEnoughDataView from './screens/NotEnoughDataView';
 import ResultsView from './screens/ResultsView';
 import OutcomesView from './screens/OutcomesView';
 
@@ -24,6 +25,7 @@ const StackScreen = () => {
     <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='LandingView'>
       <Stack.Screen name='LandingView' component={LandingView}/>
       <Stack.Screen name='DashboardView' component={DashboardView}/>
+      <Stack.Screen name='NotEnoughDataView' component={NotEnoughDataView}/>
       <Stack.Screen name='ResultsView' component={ResultsView}/>
       <Stack.Screen name='OutcomesView' component={OutcomesView}/>
     </Stack.Navigator>
