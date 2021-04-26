@@ -9,6 +9,7 @@ import ContentBox from '../containers/ContentBox';
 
 import { OutcomesViewNavigationProp, OutcomesViewRouteProp } from '../utilities/types';
 import { useAppSelector } from '../redux/hooks';
+import { FlatList } from 'react-native-gesture-handler';
 
 interface Props {
   route: OutcomesViewRouteProp,
@@ -18,10 +19,11 @@ interface Props {
 const OutcomesView: React.FC<Props> = ({ navigation, route }) => {
   const { outcome, colors } = route.params;
   const outcomesArray = useAppSelector(state => state.wordFrequency[outcome]);
+  const scrollViewHeight = useAppSelector(state => state.styleProperties.scrollViewHeight);
 
   return (
     <Background>
-      <LinearGradient colors={[colors[0], colors[1]]} style={styles.gradient}>
+      <LinearGradient colors={[colors[0], colors[1]]} style={[styles.gradient, {height: scrollViewHeight}]}>
         <Header />
         <ContentBox>
           <Text style={styles.text}>We found words such as:</Text>
@@ -32,6 +34,9 @@ const OutcomesView: React.FC<Props> = ({ navigation, route }) => {
               .join(', ')
           }</Text>
           <Text style={styles.text}>{`in ${outcome} tweets, and it represented ${outcomesArray.frequency}% of the total tweets.`}</Text>
+        </ContentBox>
+        <ContentBox>
+          {/* <FlatList></FlatList> */}
         </ContentBox>
         <Button buttonLabel="Back to Resutls" onPress={() => navigation.navigate('ResultsView')}></Button>
       </LinearGradient>
@@ -54,7 +59,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   gradient: {
-    height: '100%',
     alignItems: 'center',
   },
 });

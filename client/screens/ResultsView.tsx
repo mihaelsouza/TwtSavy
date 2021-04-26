@@ -62,7 +62,7 @@ const ResultsView: React.FC<Props> = ({ navigation }) => {
         <View style={styles.buttonArray}>
           <Button
             buttonLabel='The Bad'
-            onPress={() => handleOutcomesButton('negative', ['rgba(160,0,0,0)', 'rgba(160,0,0,.8)'])}
+            onPress={() => handleOutcomesButton('negative', ['rgba(160,0,0,.8)', 'rgba(160,0,0,0)'])}
             style={{...styles.additionalButton, backgroundColor: '#A90B0B'}}
           />
           <Button
