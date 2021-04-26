@@ -54,6 +54,7 @@ class E2E_Model:
         result = model.predict([string])
         prediction = [np.max(result), np.argmax(result)]
         response = {
+            "clean_text": string,
             "sentiment": labels[prediction[1]] if prediction[0] > 0.7 else 'neutral',
             "probability": prediction[0],
             "score": 1 - prediction[0] if labels[prediction[1]] == 'negative' else prediction[0]
@@ -63,6 +64,7 @@ class E2E_Model:
 
     def compute_prediction(self, input_data):
         default = {
+            "clean_text": '',
             "text": '<EMPTY STRING>',
             "date": '',
             "sentiment": 'invalid',

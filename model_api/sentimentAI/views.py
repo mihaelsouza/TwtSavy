@@ -30,13 +30,14 @@ class Predict_View(views.APIView):
 
         # Save entries to database
         for entry in predictions:
-            exists = Requests.objects.filter(input_data = entry['text'], ai_model = model_obj)
+            exists = Requests.objects.filter(input_data = entry['clean_text'], ai_model = model_obj)
             if not exists:
                 Requests(
-                    input_data = entry['text'],
+                    input_data = entry['clean_text'],
                     predicted_sentiment = entry['sentiment'],
                     answer_probability = float(entry['probability']),
                     ai_model = model_obj
                 ).save()
+            del entry['clean_text']
 
         return Response(predictions)
