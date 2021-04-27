@@ -55,7 +55,7 @@ twtsavy (root)
 
 ## Tech Stack
 ### FrontEnd
-<img src="./logos/icons8-react-native.svg"> <img src="./logos/icons8-redux.svg"> <img src="./logos/axios.png" width="45px" height="45px"> <img src="./logos/icons8-typescript.svg"> 
+<img src="./logos/react.svg" height="45px"> <img src="./logos/redux.svg" height="45px"> <img src="./logos/axios.png" width="45px" height="45px"> <img src="./logos/typescript.svg" height="45px"> 
 
 1. Built using React Native 
 2. State management using Redux
@@ -63,7 +63,7 @@ twtsavy (root)
 4. Written in TypeScript
 
 ### Backend
-<img src="./logos/nestjs.png" width="45px" height="45px"> <img src="./logos/icons8-mongodb.svg"> <img src="./logos/mongoose.png" width="70px" height="45px"> <img src="./logos/axios.png" width="45px" height="45px"> <img src="./logos/icons8-typescript.svg"> 
+<img src="./logos/nestjs.svg" width="45px" height="45px"> <img src="./logos/icons8-mongodb.svg"> <img src="./logos/mongoose.png" width="70px" height="45px"> <img src="./logos/axios.png" width="45px" height="45px"> <img src="./logos/typescript.svg" height="45px"> 
 
 1. Built using NestJS
 2. Connected to MongoDB using Mongoose
@@ -71,7 +71,7 @@ twtsavy (root)
 4. Written in TypeScript
 
 ### AI Model API
-<img src="./logos/django.png" width="70px" height="45px"> <img src="./logos/icons8-tensorflow.svg"> <img src="./logos/icons8-postgresql.svg"> <img src="./logos/icons8-python.svg"> 
+<img src="./logos/django.svg" height="45px"> <img src="./logos/tensorflow.svg" height="45px"> <img src="./logos/postgresql.svg" height="45px"> <img src="./logos/python.svg" height="45px"> 
 
 1. Built using DJANGO
 2. Minimal UI using the DJANGO REST Framework
