@@ -40,7 +40,8 @@ const UserLogin: React.FC<Props> = ({ navigation }) => {
             name: checkDB.name,
             email: checkDB.email,
             username: checkDB.username,
-            twitter_handle: checkDB.twitter_handle
+            twitter_handle: checkDB.twitter_handle,
+            isSignedIn: true
           }));
           navigation.navigate('DashboardView');
         }

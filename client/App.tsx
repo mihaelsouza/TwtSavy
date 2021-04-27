@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { store } from './redux/store';
+import { useAppSelector } from './redux/hooks';
 import { StackParamList } from './types/types';
 
 import MySpinner from './components/MySpinner';
@@ -21,13 +22,20 @@ const RootStack = createStackNavigator<StackParamList>();
 const Stack = createStackNavigator<StackParamList>();
 
 const StackScreen = () => {
+  const isSignedIn = useAppSelector(state => state.users.isSignedIn);
+
   return (
     <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='LandingView'>
-      <Stack.Screen name='LandingView' component={LandingView}/>
-      <Stack.Screen name='DashboardView' component={DashboardView}/>
-      <Stack.Screen name='NotEnoughDataView' component={NotEnoughDataView}/>
-      <Stack.Screen name='ResultsView' component={ResultsView}/>
-      <Stack.Screen name='OutcomesView' component={OutcomesView}/>
+      {!isSignedIn ? (
+        <Stack.Screen name='LandingView' component={LandingView}/>
+      ) : (
+        <>
+          <Stack.Screen name='DashboardView' component={DashboardView}/>
+          <Stack.Screen name='NotEnoughDataView' component={NotEnoughDataView}/>
+          <Stack.Screen name='ResultsView' component={ResultsView}/>
+          <Stack.Screen name='OutcomesView' component={OutcomesView}/>
+        </>
+      )}
     </Stack.Navigator>
   );
 };

@@ -75,7 +75,8 @@ const UserRegistration: React.FC<Props> = ({ navigation }) => {
               name: newUser.name,
               email: newUser.email,
               username: newUser.username,
-              twitter_handle: newUser.twitter_handle
+              twitter_handle: newUser.twitter_handle,
+              isSignedIn: true
             }));
             navigation.navigate('DashboardView');
           }

@@ -3,7 +3,8 @@ export interface UserDTO {
   name: string,
   email: string,
   username: string,
-  twitter_handle?: string
+  twitter_handle?: string,
+  isSignedIn: boolean
 };
 
 export const userInitialState: UserDTO = {
@@ -11,5 +12,6 @@ export const userInitialState: UserDTO = {
   name: '',
   email: '',
   username: '',
-  twitter_handle: ''
+  twitter_handle: '',
+  isSignedIn: false
 };

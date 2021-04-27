@@ -6,13 +6,16 @@ export const usersSlice = createSlice({
   name: 'users',
   initialState: userInitialState,
   reducers: {
-    updateUser: (state, action: PayloadAction<UserDTO>) => {
-      state = {...action.payload};
+    updateUser: (state: UserDTO, action: PayloadAction<UserDTO>) => {
+      state = {...state, ...action.payload};
       return state;
     },
+    userLogout: (state: UserDTO) => {
+      state.isSignedIn = false;
+    }
   }
 });
 
-export const { updateUser } = usersSlice.actions;
+export const { updateUser, userLogout } = usersSlice.actions;
 export const selectUsers = (state: RootState) => state.users;
 export default usersSlice.reducer;

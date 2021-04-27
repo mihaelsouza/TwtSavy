@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
 
+import { userLogout } from '../redux/usersSlice';
 import { updateSearch } from '../redux/queryResultSlice';
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
 
@@ -28,7 +29,7 @@ const Header: React.FC<Props> = ({ style }) => {
       </View>
       <View style={{...styles.logoContainer, justifyContent: 'flex-end'}}>
         <Text style={styles.headerTxt}>{username.toUpperCase()}</Text>
-        <FontAwesome5.Button name={'hamburger'} style={styles.hamburger} onPress={() => {console.log('hamburger')}}
+        <FontAwesome5.Button name={'hamburger'} style={styles.hamburger} onPress={() => dispatch(userLogout())}
           size={25} backgroundColor='transparent' color='black'
         />
       </View>
