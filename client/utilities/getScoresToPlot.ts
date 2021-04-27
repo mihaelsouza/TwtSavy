@@ -34,10 +34,16 @@ export function getScoresToPlot (dataArray: DataPoint[], smoothWindow: number): 
   dates.forEach((date, index) => {
     dates[index] = moment(date).fromNow()
       .replace('a few seconds', 'now')
+      .replace('a minute ago', '1min')
       .replace(' minutes', 'min')
+      .replace('an hour ago', '1h')
       .replace(' hours', 'h')
+      .replace('a day ago', '1d')
       .replace(' days', 'd')
-      .replace(' years', 'y')
+      .replace('a month ago', '1mo')
+      .replace(' months ago', 'mo')
+      .replace('a year ago', '1yr')
+      .replace(' years', 'yr')
       .replace(' ago', '') + `${index === dates.length - 1 ? ' ago' : ''}`;
   });
 
