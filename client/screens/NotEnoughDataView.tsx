@@ -47,5 +47,6 @@ const styles = StyleSheet.create({
   animation: {
     height: 300,
     width: 300,
+    marginBottom: -20,
   }
 });
