@@ -4,7 +4,6 @@ function generateRandomIndex (range: number): Function {
   const memory: number[] = [];
   const getIndex = () => {
     const value: number = Math.floor(Math.random() * range);
-    console.log(memory)
     if (memory.includes(value)) getIndex();
     else {
       memory.push(value);
