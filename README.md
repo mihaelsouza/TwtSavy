@@ -2,10 +2,12 @@
 
 Have you ever wondered what tone the things you tweet might feel like to others?  
 What about that company you really like? When people mention it, is it overall good or bad?  
-Ever curious whether or not that cool new hashtah you created is having a positive impact?  
+Ever curious whether or not that cool new hashtag you created is having a positive impact?  
 
 Well, wonder no more!  
-With TwtSavy, you can use the power of AI to get an answer in just 30 secs!  
+With TwtSavy, you can use the power of AI to get an answer in under a minute!  
+
+Check it out in action here: https://youtu.be/kHFylnFsdKw
 
 <hr>
 <br><br><br>
@@ -52,9 +54,6 @@ twtsavy (root)
     │       └── utilities  **Data Transfer Object for users and database Schema
     └── test  
 ```
-
-## Initial Prototype
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FLPG1Aj5rL5pWQ21mMCD4mO%2FTwtSavy%3Fnode-id%3D0%253A1" allowfullscreen></iframe>
 
 ## Tech Stack
 ### FrontEnd
